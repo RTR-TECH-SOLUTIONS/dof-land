@@ -1,0 +1,52 @@
+---
+import { getImage, Image } from 'astro:assets';
+import { discount, img, type Product } from '../data/products';
+import { lei, u } from '../data/site';
+
+interface Props {
+  product: Product;
+}
+const { product } = Astro.props;
+const thumb = await getImage({ src: img(product.image), width: 160, height: 160, fit: 'cover' });
+const off = discount(product);
+const stock = product.pickupOnly
+  ? { text: 'Doar cu ridicare de la grădină', cls: 'text-muted' }
+  : product.stock === 'low'
+    ? { text: 'Ultimele borcane', cls: 'text-sale' }
+    : product.stock === 'order'
+      ? { text: 'La comandă, în 3 zile', cls: 'text-muted' }
+      : { text: 'În stoc', cls: 'text-stock' };
+---
+
+<article class="card flex flex-col" data-product data-category={product.category} data-sale={off ? '1' : undefined} data-name={product.name}>
+  <a href={u(`/produs/${product.slug}`)} class="relative block">
+    <Image src={img(product.image)} alt={product.name} width={520} height={520} fit="cover" loading="lazy" class="aspect-square w-full object-cover" />
+    {off > 0 && <span class="absolute left-0 top-3 bg-sale px-2.5 py-1 text-[0.85rem] font-extrabold text-white">-{off}%</span>}
+  </a>
+  <div class="flex flex-1 flex-col p-3 md:p-4">
+    <h3 class="!text-[0.98rem] !font-bold leading-snug">
+      <a href={u(`/produs/${product.slug}`)} class="hover:text-brand">{product.name}</a>
+    </h3>
+    <p class:list={['mt-1.5 text-[0.85rem] font-bold', stock.cls]}>{stock.text}</p>
+    <p class="mb-3 mt-auto flex flex-wrap items-baseline gap-x-2 pt-3">
+      <span class:list={['text-[1.2rem] font-extrabold', off ? 'text-sale' : 'text-ink']}>{lei(product.price)}</span>
+      {product.oldPrice && <s class="text-[0.9rem] text-muted">{lei(product.oldPrice)}</s>}
+    </p>
+    <button type="button" class="btn btn-sm w-full" data-add data-id={product.slug} data-name={product.name} data-price={product.price} data-img={thumb.src}>
+      Adaugă în coș
+    </button>
+  </div>
+</article>
+
+<style>
+  .card {
+    background: #fff;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-ui);
+    overflow: hidden;
+    transition: border-color 180ms ease-out;
+  }
+  .card:hover {
+    border-color: var(--color-brand);
+  }
+</style>

@@ -1,0 +1,213 @@
+---
+import { Image } from 'astro:assets';
+import Layout from '../layouts/Layout.astro';
+import { img } from '../data/products';
+import { site, waLink } from '../data/site';
+
+// TODO(real): durata, vârstele și tarifele se confirmă cu clienta.
+const workshops = [
+  {
+    name: 'Atelier de plantare',
+    image: 'atelier-masa-client',
+    alt: 'Lopățele, pământ și răsaduri de căpșun pe masa de atelier',
+    text: 'Fiecare copil primește un ghiveci, pământ și un stolon de căpșun. Îl plantează singur, îl udă și îl ia acasă.',
+    facts: ['90 de minute', '4 - 12 ani', 'Aprilie - octombrie'],
+  },
+  {
+    name: 'Atelier cu lavandă',
+    image: 'lavanda-vrac-client',
+    alt: 'Flori de lavandă uscate pe tavă, cu săculeți de organza',
+    text: 'Copiii scutură florile uscate, umplu un săculeț de organza și îl leagă cu fundă. Pleacă acasă cu săculețul făcut de ei.',
+    facts: ['60 de minute', '3 - 12 ani', 'Tot anul'],
+  },
+  {
+    name: 'Plante și insecte, la lupă',
+    image: 'gradina-lazi',
+    alt: 'Straturi înălțate cu legume, în grădină',
+    text: 'Mergem printre straturi cu lupa și cu fișa de observație. Căutăm buburuze, albine și râme și aflăm ce treabă are fiecare în grădină.',
+    facts: ['90 de minute', '5 - 12 ani', 'Mai - septembrie'],
+  },
+  {
+    name: 'Școala Verde, program de o zi',
+    image: 'masa-lavanda-client',
+    alt: 'Masa de lucru în aer liber, cu fișe și coș cu lavandă',
+    text: 'Două ateliere la alegere, o lecție despre sol și pH, pauză de masă în aer liber și timp la locul de joacă. La final, fiecare copil primește diplomă.',
+    facts: ['4 ore', 'Clasele pregătitoare - a VI-a', 'În săptămâna Școala Verde și la cerere'],
+  },
+];
+
+const steps = [
+  'Ne scrieți data dorită, numărul de copii și vârsta lor.',
+  'Vă trimitem oferta și programul zilei în cel mult 24 de ore.',
+  'În ziua vizitei vă așteptăm la poartă. Materialele și mănușile sunt pregătite de noi.',
+];
+---
+
+<Layout title="Grădina educativă | Ateliere pentru grădinițe și școli | Dof Land">
+  <section class="bg-cream border-b border-line">
+    <div class="wrap grid items-center gap-10 py-8 md:grid-cols-2 md:gap-12 md:py-10">
+      <div>
+        <h1>Grădina educativă Dof Land</h1>
+        <p class="lead mt-5">
+          Un loc în care copiii învață cu mâinile în pământ. Primim grupuri de la grădinițe și școli, la {site.locality}, la 40 de minute de București și de Ploiești.
+        </p>
+        <div class="mt-7 flex flex-wrap gap-3">
+          <a href="#oferta" class="btn">Cere ofertă</a>
+          <a href={site.phoneHref} class="btn btn-outline">Sunați: {site.phone}</a>
+        </div>
+      </div>
+      <Image
+        src={img('atelier-cos-client')}
+        alt="Stropitoare, coș de răchită și ghivece pe masa de atelier"
+        width={1000}
+        height={760}
+        fit="cover"
+        loading="eager"
+        class="aspect-[4/3] w-full rounded-[10px] object-cover"
+      />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <h2>Atelierele noastre</h2>
+      <p class="lead mt-4">Grupuri de 10 până la 30 de copii. Cadrele didactice însoțitoare nu plătesc.</p>
+
+      <div class="mt-10 divide-y divide-line border-y border-line">
+        {
+          workshops.map((w) => (
+            <article class="grid gap-5 py-7 md:grid-cols-[220px_1fr_240px] md:items-center md:gap-10">
+              <Image src={img(w.image)} alt={w.alt} width={440} height={330} fit="cover" loading="lazy" class="aspect-[4/3] w-full rounded-[10px] object-cover" />
+              <div>
+                <h3>{w.name}</h3>
+                <p class="mt-2 max-w-[56ch]">{w.text}</p>
+              </div>
+              <ul class="space-y-1.5 text-[0.98rem]">
+                {w.facts.map((f) => <li class="check">{f}</li>)}
+              </ul>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-brand text-white/90">
+    <div class="wrap grid gap-10 md:grid-cols-2 md:gap-16">
+      <div>
+        <h2 class="!text-white">Cum decurge o vizită</h2>
+        <ol class="mt-8 space-y-6">
+          {
+            steps.map((s, i) => (
+              <li class="flex gap-5">
+                <span class="text-[1.6rem] font-extrabold leading-none text-[#d9c8ef]">{i + 1}.</span>
+                <p>{s}</p>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+      <div>
+        <h2 class="!text-white">Ce găsiți la noi</h2>
+        <ul class="mt-8 space-y-2.5 light-checks">
+          <li class="check">Mese și bănci în aer liber, la umbră</li>
+          <li class="check">Loc de joacă din lemn, cu tobogan și leagăne</li>
+          <li class="check">Grupuri sanitare și apă potabilă</li>
+          <li class="check">Parcare pentru autocar, lângă poartă</li>
+          <li class="check">Spațiu acoperit, pentru zilele cu ploaie</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="oferta">
+    <div class="wrap grid gap-10 md:grid-cols-[1fr_1.15fr] md:gap-16">
+      <div>
+        <h2>Cerere de ofertă</h2>
+        <p class="lead mt-4">
+          Completați câteva date despre grup. Cererea se deschide în WhatsApp, gata scrisă, iar noi vă răspundem în aceeași zi.
+        </p>
+        <p class="mt-6">
+          Preferați să vorbim? <a class="link" href={site.phoneHref}>{site.phone}</a>
+        </p>
+      </div>
+
+      <!-- TODO(real): cererea se salvează și în baza de date + e-mail de confirmare prin Resend. -->
+      <form class="grid gap-5 rounded-[10px] border border-line bg-cream p-6 md:grid-cols-2 md:p-8" data-offer-form data-wa={waLink('')} novalidate>
+        <div class="md:col-span-2">
+          <label class="label" for="institutie">Grădinița sau școala</label>
+          <input class="field" id="institutie" name="institutie" required autocomplete="organization" />
+        </div>
+        <div>
+          <label class="label" for="nume">Numele dumneavoastră</label>
+          <input class="field" id="nume" name="nume" required autocomplete="name" />
+        </div>
+        <div>
+          <label class="label" for="telefon">Telefon</label>
+          <input class="field" id="telefon" name="telefon" type="tel" required autocomplete="tel" inputmode="tel" />
+        </div>
+        <div>
+          <label class="label" for="copii">Număr de copii</label>
+          <input class="field" id="copii" name="copii" type="number" min="5" max="60" required inputmode="numeric" />
+        </div>
+        <div>
+          <label class="label" for="data">Data dorită</label>
+          <input class="field" id="data" name="data" type="date" required />
+        </div>
+        <div class="md:col-span-2">
+          <label class="label" for="atelier">Atelier</label>
+          <select class="field" id="atelier" name="atelier">
+            {workshops.map((w) => <option>{w.name}</option>)}
+            <option>Nu știu încă, vreau o recomandare</option>
+          </select>
+        </div>
+        <div class="md:col-span-2">
+          <label class="label" for="mesaj">Alte detalii (opțional)</label>
+          <textarea class="field" id="mesaj" name="mesaj" rows="3"></textarea>
+        </div>
+        <p class="md:col-span-2 font-bold text-[#a23b3b]" role="alert" data-offer-error hidden>
+          Completați câmpurile marcate, apoi trimiteți din nou.
+        </p>
+        <button class="btn md:col-span-2" type="submit">Trimite cererea pe WhatsApp</button>
+      </form>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .light-checks .check::before {
+    border-color: #cdbbe0;
+  }
+  .field[aria-invalid='true'] {
+    border-color: #a23b3b;
+  }
+</style>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('[data-offer-form]')!;
+  const error = form.querySelector<HTMLElement>('[data-offer-error]')!;
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const required = [...form.querySelectorAll<HTMLInputElement>('[required]')];
+    required.forEach((f) => f.setAttribute('aria-invalid', String(!f.checkValidity())));
+    const firstBad = required.find((f) => !f.checkValidity());
+    error.hidden = !firstBad;
+    if (firstBad) return firstBad.focus();
+
+    const d = Object.fromEntries(new FormData(form)) as Record<string, string>;
+    const date = new Date(d.data).toLocaleDateString('ro-RO', { day: 'numeric', month: 'long', year: 'numeric' });
+    const text = [
+      'Bună ziua! Doresc o ofertă pentru o vizită la Dof Land.',
+      `Instituție: ${d.institutie}`,
+      `Persoană de contact: ${d.nume}, ${d.telefon}`,
+      `Copii: ${d.copii}`,
+      `Data: ${date}`,
+      `Atelier: ${d.atelier}`,
+      d.mesaj && `Detalii: ${d.mesaj}`,
+    ]
+      .filter(Boolean)
+      .join('\n');
+    window.open(form.dataset.wa + encodeURIComponent(text), '_blank', 'noopener');
+  });
+</script>

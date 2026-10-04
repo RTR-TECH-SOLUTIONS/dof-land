@@ -1,0 +1,92 @@
+---
+import ProductCard from '../components/ProductCard.astro';
+import Layout from '../layouts/Layout.astro';
+import { categories, products } from '../data/products';
+import { site } from '../data/site';
+---
+
+<Layout title="Magazin | Dof Land">
+  <section class="bg-cream border-b border-line">
+    <div class="wrap py-6 md:py-8">
+      <h1>Magazin</h1>
+      <p class="lead mt-3">
+        Tot ce găsiți aici crește la noi în grădină. Expediem de luni până joi, iar comenzile de peste {site.freeShippingFrom} lei au livrarea gratuită.
+      </p>
+    </div>
+  </section>
+
+  <section class="wrap py-6 md:py-8">
+    <div class="flex flex-wrap gap-2" role="group" aria-label="Filtrează după categorie">
+      <button type="button" class="chip" data-filter="" aria-pressed="true">Toate</button>
+      {
+        categories.map((c) => (
+          <button type="button" class="chip" data-filter={c.slug} aria-pressed="false">
+            {c.name}
+          </button>
+        ))
+      }
+      <button type="button" class="chip chip-sale" data-filter="promotii" aria-pressed="false">Promoții</button>
+    </div>
+    <p class="mt-5 text-muted" aria-live="polite" data-result-count></p>
+
+    <div class="mt-6 grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-5 lg:grid-cols-4">
+      {products.map((p) => <ProductCard product={p} />)}
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .chip {
+    min-height: 44px;
+    padding: 0 18px;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-ui);
+    font-weight: 700;
+    background: var(--color-paper);
+    cursor: pointer;
+    transition: background 180ms ease-out;
+  }
+  .chip:hover {
+    border-color: var(--color-brand);
+  }
+  .chip-sale {
+    color: var(--color-sale);
+  }
+  .chip[aria-pressed='true'] {
+    background: var(--color-brand);
+    border-color: var(--color-brand);
+    color: #fff;
+  }
+</style>
+
+<script>
+  const chips = [...document.querySelectorAll<HTMLButtonElement>('[data-filter]')];
+  const cards = [...document.querySelectorAll<HTMLElement>('[data-product]')];
+  const count = document.querySelector('[data-result-count]')!;
+
+  const norm = (s: string) => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  const params = new URLSearchParams(location.search);
+  const query = norm(params.get('q') || '');
+
+  function apply(slug: string) {
+    let shown = 0;
+    cards.forEach((card) => {
+      const inCategory = !slug || (slug === 'promotii' ? !!card.dataset.sale : card.dataset.category === slug);
+      const visible = inCategory && (!query || norm(card.dataset.name || '').includes(query));
+      card.hidden = !visible;
+      if (visible) shown++;
+    });
+    chips.forEach((chip) => chip.setAttribute('aria-pressed', String(chip.dataset.filter === slug)));
+    count.textContent = shown === 1 ? '1 produs' : `${shown} produse`;
+  }
+
+  chips.forEach((chip) =>
+    chip.addEventListener('click', () => {
+      const slug = chip.dataset.filter || '';
+      history.replaceState(null, '', slug ? `?categorie=${slug}` : location.pathname);
+      apply(slug);
+    }),
+  );
+
+  apply(params.get('categorie') || '');
+</script>

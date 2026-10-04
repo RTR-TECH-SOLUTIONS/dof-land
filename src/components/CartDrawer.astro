@@ -1,0 +1,193 @@
+---
+import { site, waLink } from '../data/site';
+---
+
+<dialog id="cart" class="cart" aria-labelledby="cart-title">
+  <div class="cart-panel">
+    <header class="flex items-center justify-between border-b border-line px-5 py-4">
+      <h2 id="cart-title" class="!text-[1.7rem]">Coșul dumneavoastră</h2>
+      <button type="button" class="grid h-11 w-11 place-items-center rounded-[10px] hover:bg-cream" aria-label="Închide coșul" data-cart-close>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+          <path d="M6 6l12 12M18 6 6 18"></path>
+        </svg>
+      </button>
+    </header>
+
+    <div class="flex-1 overflow-y-auto px-5" data-cart-body>
+      <p class="py-10 text-muted" data-cart-empty>Coșul este gol. Puteți începe cu un săculeț de lavandă.</p>
+      <ul class="divide-y divide-line" data-cart-list></ul>
+    </div>
+
+    <footer class="border-t border-line bg-cream px-5 py-5" data-cart-footer hidden>
+      <p class="text-[0.94rem] text-muted" data-cart-shipping></p>
+      <p class="mt-2 flex items-baseline justify-between text-[1.15rem] font-bold">
+        <span>Total</span>
+        <span data-cart-total></span>
+      </p>
+      <!-- TODO(real): checkout cu plată online (Netopia / Stripe) și comandă salvată în baza de date. -->
+      <a class="btn mt-4 w-full" href="#" data-cart-order>Trimite comanda pe WhatsApp</a>
+      <p class="mt-3 text-center text-[0.88rem] text-muted">Plata se face ramburs, la primirea coletului.</p>
+    </footer>
+  </div>
+</dialog>
+
+<template id="cart-row">
+  <li class="flex gap-4 py-4">
+    <img src="" alt="" width="72" height="72" class="h-[72px] w-[72px] flex-none rounded-lg object-cover bg-cream" />
+    <div class="min-w-0 flex-1">
+      <p class="font-bold leading-snug" data-row-name></p>
+      <p class="text-lav font-bold" data-row-price></p>
+      <div class="mt-2 flex items-center gap-3">
+        <div class="inline-flex items-center rounded-lg border border-line">
+          <button type="button" class="h-9 w-9 text-lg" aria-label="Scade cantitatea" data-row-minus>-</button>
+          <span class="w-7 text-center font-bold" data-row-qty></span>
+          <button type="button" class="h-9 w-9 text-lg" aria-label="Crește cantitatea" data-row-plus>+</button>
+        </div>
+        <button type="button" class="text-[0.9rem] text-muted underline underline-offset-4 hover:text-ink" data-row-remove>Șterge</button>
+      </div>
+    </div>
+  </li>
+</template>
+
+<div
+  id="cart-config"
+  hidden
+  data-free={site.freeShippingFrom}
+  data-shipping={site.shippingCost}
+  data-wa={waLink('')}
+>
+</div>
+
+<style>
+  .cart {
+    margin: 0 0 0 auto;
+    padding: 0;
+    width: min(440px, 100vw);
+    max-width: none;
+    height: 100dvh;
+    max-height: none;
+    background: var(--color-paper);
+    color: var(--color-ink);
+    border: 0;
+  }
+  .cart::backdrop {
+    background: rgb(28 42 38 / 0.45);
+  }
+  .cart-panel {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .cart[open] {
+    animation: slide 220ms ease-out;
+  }
+  @keyframes slide {
+    from {
+      transform: translateX(24px);
+      opacity: 0;
+    }
+  }
+</style>
+
+<script>
+  type Item = { id: string; name: string; price: number; img: string; qty: number };
+  const KEY = 'dofland-cart';
+  const lei = (n: number) => `${n.toFixed(2).replace('.', ',')} lei`;
+
+  const dialog = document.getElementById('cart') as HTMLDialogElement;
+  const config = document.getElementById('cart-config')!.dataset;
+  const list = dialog.querySelector('[data-cart-list]')!;
+  const empty = dialog.querySelector<HTMLElement>('[data-cart-empty]')!;
+  const footer = dialog.querySelector<HTMLElement>('[data-cart-footer]')!;
+  const totalEl = dialog.querySelector('[data-cart-total]')!;
+  const shippingEl = dialog.querySelector('[data-cart-shipping]')!;
+  const orderLink = dialog.querySelector<HTMLAnchorElement>('[data-cart-order]')!;
+  const rowTpl = document.getElementById('cart-row') as HTMLTemplateElement;
+
+  const read = (): Item[] => {
+    try {
+      return JSON.parse(localStorage.getItem(KEY) || '[]');
+    } catch {
+      return [];
+    }
+  };
+  const write = (items: Item[]) => {
+    localStorage.setItem(KEY, JSON.stringify(items));
+    render();
+  };
+
+  function render() {
+    const items = read();
+    const count = items.reduce((s, i) => s + i.qty, 0);
+    document.querySelectorAll<HTMLElement>('[data-cart-count]').forEach((el) => {
+      el.textContent = String(count);
+      el.hidden = count === 0;
+    });
+
+    list.replaceChildren(
+      ...items.map((item) => {
+        const row = rowTpl.content.firstElementChild!.cloneNode(true) as HTMLElement;
+        row.querySelector('img')!.src = item.img;
+        row.querySelector('[data-row-name]')!.textContent = item.name;
+        row.querySelector('[data-row-price]')!.textContent = lei(item.price * item.qty);
+        row.querySelector('[data-row-qty]')!.textContent = String(item.qty);
+        row.querySelector('[data-row-minus]')!.addEventListener('click', () => change(item.id, -1));
+        row.querySelector('[data-row-plus]')!.addEventListener('click', () => change(item.id, 1));
+        row.querySelector('[data-row-remove]')!.addEventListener('click', () => change(item.id, -item.qty));
+        return row;
+      }),
+    );
+
+    empty.hidden = items.length > 0;
+    footer.hidden = items.length === 0;
+    if (!items.length) return;
+
+    const subtotal = items.reduce((s, i) => s + i.price * i.qty, 0);
+    const free = Number(config.free);
+    const shipping = subtotal >= free ? 0 : Number(config.shipping);
+    shippingEl.textContent = shipping
+      ? `Livrare ${lei(shipping)}. Mai adăugați ${lei(free - subtotal)} pentru livrare gratuită.`
+      : 'Livrare gratuită pentru această comandă.';
+    totalEl.textContent = lei(subtotal + shipping);
+
+    const lines = items.map((i) => `${i.qty} x ${i.name}`).join('\n');
+    orderLink.href =
+      config.wa + encodeURIComponent(`Bună ziua! Doresc să comand:\n${lines}\nTotal: ${lei(subtotal + shipping)}`);
+  }
+
+  function change(id: string, delta: number) {
+    const items = read()
+      .map((i) => (i.id === id ? { ...i, qty: i.qty + delta } : i))
+      .filter((i) => i.qty > 0);
+    write(items);
+  }
+
+  function add(data: DOMStringMap, qty: number) {
+    const items = read();
+    const found = items.find((i) => i.id === data.id);
+    if (found) found.qty += qty;
+    else items.push({ id: data.id!, name: data.name!, price: Number(data.price), img: data.img!, qty });
+    write(items);
+    dialog.showModal();
+  }
+
+  document.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement;
+    const addBtn = target.closest<HTMLElement>('[data-add]');
+    if (addBtn) {
+      const qtyInput = document.querySelector<HTMLInputElement>(addBtn.dataset.qtyFrom || '_');
+      add(addBtn.dataset, Math.max(1, Number(qtyInput?.value) || 1));
+    }
+    if (target.closest('[data-cart-open]')) dialog.showModal();
+    if (target.closest('[data-cart-close]') || target === dialog) dialog.close();
+
+    const navToggle = target.closest<HTMLElement>('[data-nav-toggle]');
+    if (navToggle) {
+      const panel = document.getElementById('mobile-nav')!;
+      panel.hidden = !panel.hidden;
+      navToggle.setAttribute('aria-expanded', String(!panel.hidden));
+    }
+  });
+
+  render();
+</script>

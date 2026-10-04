@@ -1,0 +1,79 @@
+---
+import { Image } from 'astro:assets';
+import Layout from '../layouts/Layout.astro';
+import { img } from '../data/products';
+import { site, waLink } from '../data/site';
+
+// TODO(real): tarifele de acces și perioadele se confirmă cu clienta.
+const experiences = [
+  { name: 'Plimbare în lan', text: 'Rândurile de lavandă sunt deschise pentru plimbare în iunie și iulie.', price: '15 lei / persoană, copiii sub 7 ani gratuit' },
+  { name: 'Culege-ți buchetul', text: 'Primiți o foarfecă și o sfoară și vă tăiați singuri lavanda.', price: '25 lei / buchet' },
+  { name: 'Ședință foto', text: 'Cu fotograful dumneavoastră, dimineața devreme sau la apus, când lumina e blândă.', price: '100 lei / oră, cu programare' },
+  { name: 'Degustare de miere', text: 'Polifloră, salcâm și fagure, cu pâine de casă.', price: '20 lei / persoană' },
+];
+---
+
+<Layout title="Vizitează-ne | Dof Land, Poienarii Burchii">
+  <section class="bg-cream border-b border-line">
+    <div class="wrap grid items-center gap-10 py-8 md:grid-cols-2 md:gap-12 md:py-10">
+      <div>
+        <h1>Vizitează-ne la Poienarii Burchii</h1>
+        <p class="lead mt-5">
+          Lavanda înflorește din a doua săptămână din iunie până la jumătatea lui iulie. În restul anului găsiți grădina de legume, florile de sezon și magazinul de la poartă.
+        </p>
+        <a href={waLink('Bună ziua! Aș dori să vin în vizită la Dof Land.')} class="btn mt-7" target="_blank" rel="noopener">Anunțați-ne că veniți</a>
+      </div>
+      <Image src={img('cos-in-lan')} alt="Coș de răchită cu lavandă tăiată, între rânduri" width={1000} height={760} fit="cover" loading="eager" class="aspect-[4/3] w-full rounded-[10px] object-cover" />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <h2>Ce puteți face la noi</h2>
+      <div class="mt-8 divide-y divide-line border-y border-line">
+        {
+          experiences.map((x) => (
+            <div class="grid gap-2 py-5 md:grid-cols-[260px_1fr_auto] md:items-baseline md:gap-10">
+              <h3>{x.name}</h3>
+              <p>{x.text}</p>
+              <p class="font-bold text-lav">{x.price}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-cream" id="contact">
+    <div class="wrap grid gap-10 md:grid-cols-2 md:gap-16">
+      <div>
+        <h2>Program și contact</h2>
+        <dl class="mt-7 divide-y divide-line border-y border-line">
+          {
+            site.schedule.map((s) => (
+              <div class="flex justify-between gap-6 py-3.5">
+                <dt class="font-bold">{s.days}</dt>
+                <dd class="text-right">{s.hours}</dd>
+              </div>
+            ))
+          }
+        </dl>
+        <p class="mt-7">
+          <span class="font-bold">Adresă:</span> {site.locality}<br />
+          <span class="font-bold">Telefon:</span> <a class="link" href={site.phoneHref}>{site.phone}</a><br />
+          <span class="font-bold">E-mail:</span> <a class="link" href={`mailto:${site.email}`}>{site.email}</a>
+        </p>
+        <h3 class="mt-9">Cum ajungeți</h3>
+        <p class="mt-2 max-w-[56ch]">
+          Din București, pe DN1 până la Puchenii Mari, apoi stânga spre Poienarii Burchii. Din Ploiești sunt 25 de kilometri. Avem parcare la poartă, inclusiv pentru autocare.
+        </p>
+      </div>
+      <iframe
+        title="Harta: Poienarii Burchii, Prahova"
+        src="https://www.google.com/maps?q=Poienarii+Burchii,+Prahova&output=embed"
+        loading="lazy"
+        class="h-[360px] w-full rounded-[10px] border border-line md:h-full md:min-h-[460px]"
+        referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+  </section>
+</Layout>

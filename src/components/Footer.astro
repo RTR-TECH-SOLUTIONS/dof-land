@@ -1,0 +1,63 @@
+---
+import { categories } from '../data/products';
+import { site, u } from '../data/site';
+---
+
+<footer class="bg-brand-dark text-white/85 mt-auto">
+  <div class="wrap grid gap-10 py-14 md:grid-cols-[1.3fr_1fr_1fr_1.2fr]">
+    <div>
+      <p class="text-white text-[2.2rem] leading-none" style="font-family: var(--font-script)">Dof Land</p>
+      <p class="mt-1 text-[0.85rem] font-bold text-white/80">Un colț de rai</p>
+      <p class="mt-5 max-w-[34ch]">
+        Lan de lavandă, grădină de legume, livadă și stupi, la {site.locality}.
+      </p>
+    </div>
+
+    <div>
+      <h2 class="!text-white !text-[1.05rem]">Magazin</h2>
+      <ul class="mt-4 space-y-2">
+        {
+          categories.map((c) => (
+            <li>
+              <a class="hover:text-white hover:underline underline-offset-4" href={u(`/magazin?categorie=${c.slug}`)}>
+                {c.name}
+              </a>
+            </li>
+          ))
+        }
+        <li><a class="hover:text-white hover:underline underline-offset-4" href={u('/magazin')}>Toate produsele</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="!text-white !text-[1.05rem]">La grădină</h2>
+      <ul class="mt-4 space-y-2">
+        <li><a class="hover:text-white hover:underline underline-offset-4" href={u('/gradina-educativa')}>Ateliere pentru copii</a></li>
+        <li><a class="hover:text-white hover:underline underline-offset-4" href={u('/gradina-educativa#oferta')}>Cerere de ofertă pentru școli</a></li>
+        <li><a class="hover:text-white hover:underline underline-offset-4" href={u('/viziteaza-ne')}>Vizitează-ne</a></li>
+        <li><a class="hover:text-white hover:underline underline-offset-4" href={u('/#poveste')}>Povestea noastră</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="!text-white !text-[1.05rem]">Program de vizitare</h2>
+      <dl class="mt-4 space-y-2">
+        {
+          site.schedule.map((s) => (
+            <div class="flex flex-wrap gap-x-2">
+              <dt class="font-bold text-white">{s.days}:</dt>
+              <dd>{s.hours}</dd>
+            </div>
+          ))
+        }
+      </dl>
+      <p class="mt-5">
+        <a class="font-bold text-white hover:underline underline-offset-4" href={site.phoneHref}>{site.phone}</a><br />
+        <a class="hover:text-white hover:underline underline-offset-4" href={`mailto:${site.email}`}>{site.email}</a>
+      </p>
+    </div>
+  </div>
+  <div class="border-t border-white/15">
+    <p class="wrap py-5 text-[0.9rem] text-white/70">© {new Date().getFullYear()} Dof Land, {site.locality}</p>
+  </div>
+</footer>
