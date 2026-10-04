@@ -22,12 +22,15 @@ export const site = {
 };
 
 export const nav: { label: string; href: string; sale?: boolean }[] = [
+  { label: 'Căpșuni', href: '/magazin?categorie=capsuni' },
   { label: 'Lavandă', href: '/magazin?categorie=lavanda' },
-  { label: 'Miere', href: '/magazin?categorie=miere' },
   { label: 'Flori și plante', href: '/magazin?categorie=flori-si-plante' },
+  { label: 'Substrat și îngrășăminte', href: '/magazin?categorie=substrat-si-ingrasaminte' },
+  { label: 'Miere', href: '/magazin?categorie=miere' },
   { label: 'Cadouri', href: '/magazin?categorie=cadouri' },
   { label: 'Promoții', href: '/magazin?categorie=promotii', sale: true },
   { label: 'Grădina educativă', href: '/gradina-educativa' },
+  { label: 'Evenimente', href: '/evenimente' },
   { label: 'Vizitează-ne', href: '/viziteaza-ne' },
 ].map((item) => ({ ...item, href: u(item.href) }));
 
