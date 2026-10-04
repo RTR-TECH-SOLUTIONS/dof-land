@@ -1,0 +1,56 @@
+---
+import '../styles/global.css';
+import CartDrawer from '../components/CartDrawer.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { u, waLink } from '../data/site';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+const { title, description = 'Lavandă, miere și flori de la Dof Land, Poienarii Burchii, Prahova. Magazin online și grădină educativă pentru copii.' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="ro">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <!-- TODO(real): se scoate la lansare; demo-ul nu trebuie indexat. -->
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" type="image/svg+xml" href={u('/favicon.svg')} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Nunito:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="flex min-h-dvh flex-col">
+    <a href="#continut" class="sr-only focus:not-sr-only focus:absolute focus:left-3 focus:top-3 focus:z-50 focus:bg-paper focus:px-4 focus:py-2">
+      Sari la conținut
+    </a>
+    <Header />
+    <main id="continut">
+      <slot />
+    </main>
+    <Footer />
+    <CartDrawer />
+
+    <a
+      href={waLink('Bună ziua! Am o întrebare despre Dof Land.')}
+      class="fixed bottom-4 right-4 z-30 grid h-14 w-14 place-items-center rounded-full bg-[#1f8f4e] text-white shadow-[0_6px_18px_rgb(28_42_38/0.28)] hover:bg-[#187a42]"
+      aria-label="Scrieți-ne pe WhatsApp"
+      target="_blank"
+      rel="noopener"
+    >
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M3.5 20.5 5 16a8.500 8.500 0 1 1 3.200 3.100L3.500 20.500Z"></path>
+        <path d="M9 8.500c0 3.500 3 6.500 6.500 6.500l1-1.800-2-1-1 .800a4 4 0 0 1-2-2l.800-1-1-2L9 8.500Z" fill="currentColor" stroke="none"></path>
+      </svg>
+    </a>
+  </body>
+</html>

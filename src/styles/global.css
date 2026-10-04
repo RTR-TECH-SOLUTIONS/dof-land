@@ -1,0 +1,178 @@
+@import 'tailwindcss';
+
+/* Paleta vine din eticheta de pe săculeții clientei: movul fundei, hârtia liliachie, auriul literelor. */
+@theme {
+  --color-ink: #2a2333;
+  --color-brand: #5d3f8e;
+  --color-brand-dark: #3b2859;
+  --color-lav: #5d3f8e;
+  --color-lav-soft: #efe7f7;
+  --color-cream: #f7f3fb;
+  --color-paper: #ffffff;
+  --color-line: #e2d9ec;
+  --color-muted: #625a6e;
+  --color-gold: #a3741c;
+  --color-sale: #b3261e;
+  --color-stock: #2e7d4f;
+
+  --font-sans: 'Nunito', system-ui, sans-serif;
+  --font-script: 'Dancing Script', cursive;
+
+  --radius-ui: 8px;
+}
+
+@layer base {
+  :root {
+    --header-h: 152px;
+    --wrap: 1200px;
+    --gutter: clamp(16px, 4vw, 40px);
+    --section: clamp(40px, 5vw, 64px);
+  }
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 96px;
+  }
+  body {
+    font-family: var(--font-sans);
+    color: var(--color-ink);
+    background: var(--color-paper);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1,
+  h2,
+  h3 {
+    font-weight: 800;
+    line-height: 1.2;
+    color: var(--color-ink);
+  }
+  h1 {
+    font-size: clamp(1.8rem, 3.4vw, 2.6rem);
+  }
+  h2 {
+    font-size: clamp(1.4rem, 2.2vw, 1.75rem);
+  }
+  h3 {
+    font-size: 1.15rem;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-lav);
+    outline-offset: 3px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      transition-duration: 0.01ms !important;
+      animation-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  .wrap {
+    width: 100%;
+    max-width: var(--wrap);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+  .section {
+    padding-block: var(--section);
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 46px;
+    padding: 0 22px;
+    border-radius: var(--radius-ui);
+    font-weight: 700;
+    font-size: 1rem;
+    background: var(--color-brand);
+    color: #fff;
+    border: 1px solid var(--color-brand);
+    transition:
+      background 180ms ease-out,
+      color 180ms ease-out;
+    cursor: pointer;
+  }
+  .btn:hover {
+    background: var(--color-brand-dark);
+    border-color: var(--color-brand-dark);
+  }
+  .btn-outline {
+    background: transparent;
+    color: var(--color-brand);
+  }
+  .btn-outline:hover {
+    background: var(--color-brand);
+    color: #fff;
+  }
+  .btn-sm {
+    min-height: 42px;
+    padding: 0 16px;
+    font-size: 0.94rem;
+  }
+  .link {
+    color: var(--color-lav);
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+  .link:hover {
+    color: var(--color-brand);
+  }
+  .lead {
+    font-size: 1.05rem;
+    color: var(--color-muted);
+    max-width: 62ch;
+  }
+  .check {
+    position: relative;
+    padding-left: 30px;
+  }
+  .check::before {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 0.5em;
+    width: 12px;
+    height: 7px;
+    border-left: 2px solid var(--color-lav);
+    border-bottom: 2px solid var(--color-lav);
+    transform: rotate(-45deg);
+  }
+  .section-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px 24px;
+    padding-bottom: 12px;
+    margin-bottom: 24px;
+    border-bottom: 2px solid var(--color-brand);
+  }
+  .field {
+    width: 100%;
+    min-height: 48px;
+    padding: 10px 14px;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-ui);
+    background: #fff;
+    font: inherit;
+  }
+  .field:focus {
+    border-color: var(--color-lav);
+  }
+  .label {
+    display: block;
+    font-weight: 700;
+    font-size: 0.94rem;
+    margin-bottom: 6px;
+  }
+}

@@ -1,0 +1,210 @@
+---
+import { getImage } from 'astro:assets';
+import { img, products } from '../data/products';
+import { lei, nav, site, u } from '../data/site';
+
+const current = Astro.url.pathname.replace(/\/$/, '') || '/';
+const index = await Promise.all(
+  products.map(async (p) => ({
+    name: p.name,
+    url: u(`/produs/${p.slug}`),
+    price: lei(p.price),
+    img: (await getImage({ src: img(p.image), width: 96, height: 96, fit: 'cover' })).src,
+  })),
+);
+---
+
+<div class="bg-brand-dark text-white text-[0.88rem]">
+  <div class="wrap flex flex-wrap items-center justify-between gap-x-6 gap-y-1 py-2">
+    <p class="hidden sm:block">
+      {site.locality} · <a href={site.phoneHref} class="font-bold hover:underline">{site.phone}</a>
+    </p>
+    <p class="font-bold">Livrare gratuită la comenzi de peste {site.freeShippingFrom} lei</p>
+  </div>
+</div>
+
+<header class="bg-paper border-b border-line">
+  <div class="wrap flex items-center gap-3 py-3 md:gap-8 md:py-4">
+    <button
+      type="button"
+      class="md:hidden -ml-2 grid h-11 w-11 place-items-center"
+      aria-label="Deschide meniul"
+      aria-expanded="false"
+      aria-controls="mobile-nav"
+      data-nav-toggle
+    >
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <path d="M4 7h16M4 12h16M4 17h16"></path>
+      </svg>
+    </button>
+
+    <a href={u('/')} class="logo flex-none leading-none" aria-label="Dof Land, pagina principală">
+      <span class="logo-name">Dof Land</span>
+      <span class="logo-tag">Un colț de rai</span>
+    </a>
+
+    <form class="search relative hidden flex-1 md:block" role="search" action={u('/magazin')} data-search>
+      <label class="sr-only" for="q">Caută în magazin</label>
+      <input id="q" name="q" type="search" autocomplete="off" placeholder="Caută: săculeți, miere, buchet..." class="field !pr-12" />
+      <button type="submit" class="absolute right-0 top-0 grid h-full w-12 place-items-center text-brand" aria-label="Caută">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"></circle>
+          <path d="m20 20-3.500-3.500"></path>
+        </svg>
+      </button>
+      <ul class="search-results" data-search-results hidden></ul>
+    </form>
+
+    <div class="ml-auto flex items-center gap-1 md:ml-0 md:gap-5">
+      <a href={site.phoneHref} class="hidden text-right leading-tight lg:block">
+        <span class="block text-[0.82rem] text-muted">Comenzi telefonice</span>
+        <span class="block font-extrabold text-brand">{site.phone}</span>
+      </a>
+      <button type="button" class="relative flex h-11 items-center gap-2 rounded-lg px-2 font-bold hover:text-brand" data-cart-open>
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 4h2.500l2.200 11h10.300l2-8H7"></path>
+          <circle cx="9.500" cy="19" r="1.400"></circle>
+          <circle cx="17" cy="19" r="1.400"></circle>
+        </svg>
+        <span class="hidden md:inline">Coș</span>
+        <span class="absolute left-5 top-0 grid h-5 min-w-5 place-items-center rounded-full bg-sale px-1 text-[0.72rem] font-bold text-white" data-cart-count hidden>0</span>
+      </button>
+    </div>
+  </div>
+
+  <nav aria-label="Categorii" class="hidden border-t border-line md:block">
+    <ul class="wrap flex flex-wrap gap-x-7">
+      {
+        nav.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              class:list={[
+                'block border-b-[3px] border-transparent py-3 font-bold hover:border-brand hover:text-brand',
+                item.sale && 'text-sale hover:!border-sale hover:!text-sale',
+                current === item.href && '!border-brand text-brand',
+              ]}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+
+  <nav id="mobile-nav" aria-label="Navigare mobil" class="border-t border-line md:hidden" hidden>
+    <form class="wrap pt-3" role="search" action={u('/magazin')}>
+      <label class="sr-only" for="qm">Caută în magazin</label>
+      <input id="qm" name="q" type="search" placeholder="Caută în magazin" class="field" />
+    </form>
+    <ul class="wrap py-2">
+      {
+        nav.map((item) => (
+          <li class="border-b border-line last:border-0">
+            <a href={item.href} class:list={['block py-3 font-bold', item.sale && 'text-sale']}>
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+      <li><a href={site.phoneHref} class="block py-3 font-extrabold text-brand">Sunați: {site.phone}</a></li>
+    </ul>
+  </nav>
+</header>
+
+<script type="application/json" id="search-index" set:html={JSON.stringify(index)} />
+
+<style>
+  .logo-name {
+    display: block;
+    font-family: var(--font-script);
+    font-size: clamp(1.9rem, 3vw, 2.5rem);
+    color: var(--color-brand);
+  }
+  .logo-tag {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--color-gold);
+    letter-spacing: 0.02em;
+    margin-top: 2px;
+  }
+  .search-results {
+    position: absolute;
+    z-index: 40;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: #fff;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-ui);
+    box-shadow: 0 10px 24px rgb(42 35 51 / 0.14);
+    overflow: hidden;
+  }
+  .search-results :global(a) {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 12px;
+  }
+  .search-results :global(a:hover),
+  .search-results :global(a:focus) {
+    background: var(--color-cream);
+  }
+  .search-results :global(img) {
+    width: 44px;
+    height: 44px;
+    border-radius: 6px;
+    object-fit: cover;
+  }
+  .search-results :global(b) {
+    margin-left: auto;
+    color: var(--color-brand);
+    white-space: nowrap;
+  }
+  .search-results :global(p) {
+    padding: 12px;
+    color: var(--color-muted);
+  }
+</style>
+
+<script>
+  type Entry = { name: string; url: string; price: string; img: string };
+  const index: Entry[] = JSON.parse(document.getElementById('search-index')!.textContent!);
+  const form = document.querySelector<HTMLFormElement>('[data-search]');
+  const norm = (s: string) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+
+  if (form) {
+    const input = form.querySelector('input')!;
+    const box = form.querySelector<HTMLElement>('[data-search-results]')!;
+    input.addEventListener('input', () => {
+      const q = norm(input.value.trim());
+      if (q.length < 2) return void (box.hidden = true);
+      const hits = index.filter((e) => norm(e.name).includes(q)).slice(0, 5);
+      box.replaceChildren(
+        ...(hits.length
+          ? hits.map((e) => {
+              const li = document.createElement('li');
+              const a = document.createElement('a');
+              a.href = e.url;
+              const im = document.createElement('img');
+              im.src = e.img;
+              im.alt = '';
+              const name = document.createElement('span');
+              name.textContent = e.name;
+              const price = document.createElement('b');
+              price.textContent = e.price;
+              a.append(im, name, price);
+              li.append(a);
+              return li;
+            })
+          : [Object.assign(document.createElement('p'), { textContent: 'Nu am găsit niciun produs.' })]),
+      );
+      box.hidden = false;
+    });
+    document.addEventListener('click', (e) => {
+      if (!form.contains(e.target as Node)) box.hidden = true;
+    });
+  }
+</script>
