@@ -21,18 +21,18 @@ const deals = products.filter((p) => p.oldPrice).slice(0, 4);
           <span class="btn mt-5">Cumpără acum</span>
         </div>
       </a>
+      <a href={u('/magazin?categorie=capsuni')} class="hero-side">
+        <Image src={img('capsuni')} alt="Căpșună coaptă pe plantă" width={700} height={400} fit="cover" loading="eager" />
+        <div>
+          <h2>Căpșuni, cultura noastră principală</h2>
+          <p>Fructe proaspete, răsaduri și substrat</p>
+        </div>
+      </a>
       <a href={u('/gradina-educativa')} class="hero-side">
         <Image src={img('atelier-masa-client')} alt="Copii care plantează răsaduri de căpșun la masa de lucru" width={700} height={400} fit="cover" loading="eager" />
         <div>
-          <h2>Ateliere pentru grădinițe și școli</h2>
-          <p>Plantare, lavandă, Școala Verde</p>
-        </div>
-      </a>
-      <a href={u('/viziteaza-ne')} class="hero-side">
-        <Image src={img('lan-aproape')} alt="Lavandă înflorită" width={700} height={400} fit="cover" loading="eager" />
-        <div>
-          <h2>Vizitează lanul de lavandă</h2>
-          <p>Iunie și iulie, sâmbăta și duminica</p>
+          <h2>Ateliere pentru copii și evenimente</h2>
+          <p>Grădinițe, școli, zile de naștere</p>
         </div>
       </a>
     </div>
@@ -48,7 +48,7 @@ const deals = products.filter((p) => p.oldPrice).slice(0, 4);
   <section class="section">
     <div class="wrap">
       <div class="section-head"><h2>Categorii</h2></div>
-      <ul class="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-5">
+      <ul class="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-5 lg:grid-cols-6">
         {
           categories.map((c) => (
             <li>
@@ -121,7 +121,7 @@ const deals = products.filter((p) => p.oldPrice).slice(0, 4);
         </table>
         <div class="mt-5 flex flex-wrap gap-3">
           <a href={u('/gradina-educativa#oferta')} class="btn">Cere ofertă pentru grup</a>
-          <a href={u('/gradina-educativa')} class="btn btn-outline">Detalii ateliere</a>
+          <a href={u('/evenimente')} class="btn btn-outline">Petreceri și zile de naștere</a>
         </div>
       </div>
     </div>
@@ -130,12 +130,15 @@ const deals = products.filter((p) => p.oldPrice).slice(0, 4);
   <section class="section" id="poveste">
     <div class="wrap story">
       <div>
-        <h2 class="!text-[clamp(1.5rem,2.6vw,2rem)]">Cine suntem</h2>
+        <h2 class="!text-[clamp(1.5rem,2.6vw,2rem)]">Povestea noastră</h2>
         <p class="mt-3">
-          Dof Land a pornit de la câteva rânduri de lavandă puse lângă casă, la Poienarii Burchii. An de an am mai adăugat câte ceva: grădina de legume, pomii, stupii, straturile cu flori.
+          Dof Land s-a născut din dorința de a crea un loc în care natura, educația și bucuria lucrurilor simple să se întâlnească. Este un proiect de suflet, construit pas cu pas pe 5000 de metri pătrați, la Poienarii Burchii, județul Prahova.
         </p>
         <p class="mt-3">
-          Tot ce vindem crește aici și trece prin mâinile noastre, de la plantat până la legat fundița pe săculeț.
+          Locul a fost amenajat special pentru activitățile cu copii, iar restul l-am dezvoltat în jurul lor. Astăzi cultivăm căpșuni, lavandă, trandafiri, lalele, plante aromatice și flori de sezon.
+        </p>
+        <p class="mt-3">
+          Credem că fiecare floare, fiecare plantă și fiecare produs spune o poveste. De aceea, tot ceea ce oferim poartă amprenta muncii noastre și a grijii pentru calitate.
         </p>
         <p class="mt-4"><a href={u('/viziteaza-ne')} class="link">Program de vizitare și cum ajungeți</a></p>
       </div>
@@ -271,8 +274,11 @@ const deals = products.filter((p) => p.oldPrice).slice(0, 4);
     object-fit: cover;
   }
   .cat span {
-    display: block;
-    padding: 10px 12px;
+    display: grid;
+    place-items: center;
+    min-height: 3.6em;
+    line-height: 1.25;
+    padding: 8px 10px;
     font-weight: 800;
     text-align: center;
     background: var(--color-lav-soft);

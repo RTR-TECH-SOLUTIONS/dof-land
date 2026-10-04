@@ -1,0 +1,56 @@
+---
+import { Image } from 'astro:assets';
+import Layout from '../layouts/Layout.astro';
+import { img } from '../data/products';
+import { site, waLink } from '../data/site';
+
+// TODO(real): tarifele, durata și ce este inclus se confirmă cu clienta.
+const included = [
+  ['Capacitate', 'maximum 30 de persoane, copii și adulți'],
+  ['Spațiu', 'mese și bănci în aer liber, zonă acoperită pentru ploaie'],
+  ['Pentru copii', 'loc de joacă din lemn și, la cerere, un atelier de plantare sau cu lavandă'],
+  ['Mâncare și tort', 'le aduceți dumneavoastră sau prin firma de catering aleasă'],
+  ['Durată', '3 ore, cu posibilitate de prelungire'],
+  ['Perioadă', 'aprilie - octombrie, cu rezervare'],
+];
+---
+
+<Layout title="Evenimente | Petreceri și zile de naștere la Dof Land" description="Petreceri și zile de naștere în grădină, pentru maximum 30 de persoane, la Dof Land, Poienarii Burchii.">
+  <section class="bg-cream border-b border-line">
+    <div class="wrap grid items-center gap-8 py-8 md:grid-cols-2 md:gap-12 md:py-10">
+      <div>
+        <h1>Petreceri și zile de naștere în grădină</h1>
+        <p class="lead mt-4">
+          Găzduim evenimente private pentru cel mult 30 de persoane: aniversări pentru copii, petreceri de familie, întâlniri ale clasei. Copiii au unde să alerge, iar adulții stau la masă, între flori.
+        </p>
+        <div class="mt-6 flex flex-wrap gap-3">
+          <a class="btn" href={waLink('Bună ziua! Doresc să rezerv Dof Land pentru un eveniment. Data: ... Număr de persoane: ...')} target="_blank" rel="noopener">Cere ofertă pe WhatsApp</a>
+          <a class="btn btn-outline" href={site.phoneHref}>Sunați: {site.phone}</a>
+        </div>
+      </div>
+      <Image src={img('masa-lavanda-client')} alt="Masă în aer liber, cu față de masă cu lavandă și coș cu lavandă uscată" width={900} height={680} fit="cover" loading="eager" class="aspect-[4/3] w-full rounded-lg object-cover" />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap grid gap-8 md:grid-cols-[1.3fr_1fr] md:gap-12">
+      <div>
+        <div class="section-head"><h2>Ce trebuie să știți</h2></div>
+        <dl class="divide-y divide-line border-b border-line">
+          {
+            included.map(([k, v]) => (
+              <div class="grid gap-1 py-3 sm:grid-cols-[170px_1fr] sm:gap-6">
+                <dt class="font-extrabold">{k}</dt>
+                <dd>{v}</dd>
+              </div>
+            ))
+          }
+        </dl>
+      </div>
+      <div class="grid content-start gap-3">
+        <Image src={img('atelier-cos-client')} alt="Stropitoare și coș de răchită pe masa de atelier" width={700} height={500} fit="cover" loading="lazy" class="aspect-[7/5] w-full rounded-lg object-cover" />
+        <Image src={img('cosuri-client')} alt="Felinar de răchită și coș cu lavandă uscată" width={700} height={500} fit="cover" loading="lazy" class="aspect-[7/5] w-full rounded-lg object-cover" />
+      </div>
+    </div>
+  </section>
+</Layout>
