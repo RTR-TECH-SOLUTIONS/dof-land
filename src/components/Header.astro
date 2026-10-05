@@ -23,7 +23,7 @@ const index = await Promise.all(
   </div>
 </div>
 
-<header class="bg-paper border-b border-line">
+<header class="sticky top-0 z-30 bg-paper/95 backdrop-blur border-b border-line">
   <div class="wrap flex items-center gap-3 py-3 md:gap-8 md:py-4">
     <button
       type="button"
@@ -45,7 +45,7 @@ const index = await Promise.all(
 
     <form class="search relative hidden flex-1 md:block" role="search" action={u('/magazin')} data-search>
       <label class="sr-only" for="q">Caută în magazin</label>
-      <input id="q" name="q" type="search" autocomplete="off" placeholder="Caută: săculeți, miere, buchet..." class="field !pr-12" />
+      <input id="q" name="q" type="search" autocomplete="off" placeholder="Caută: săculeți, miere, buchet..." class="field search-field !pr-12" />
       <button type="submit" class="absolute right-0 top-0 grid h-full w-12 place-items-center text-brand" aria-label="Caută">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
           <circle cx="11" cy="11" r="7"></circle>
@@ -72,15 +72,15 @@ const index = await Promise.all(
     </div>
   </div>
 
-  <nav aria-label="Categorii" class="hidden border-t border-line md:block">
-    <ul class="wrap flex flex-wrap gap-x-[18px] text-[0.95rem]">
+  <nav aria-label="Categorii" class="hidden md:block">
+    <ul class="wrap flex flex-wrap gap-x-[20px] text-[0.92rem]">
       {
         nav.map((item) => (
           <li>
             <a
               href={item.href}
               class:list={[
-                'block border-b-[3px] border-transparent py-3 font-bold hover:border-brand hover:text-brand',
+                'block border-b-2 border-transparent py-3 font-semibold hover:border-brand hover:text-brand',
                 item.sale && 'text-sale hover:!border-sale hover:!text-sale',
                 current === item.href && '!border-brand text-brand',
               ]}
@@ -129,6 +129,15 @@ const index = await Promise.all(
     color: var(--color-gold);
     letter-spacing: 0.02em;
     margin-top: 2px;
+  }
+  .search-field {
+    background: var(--color-cream);
+    border-color: transparent;
+    border-radius: 999px;
+    padding-left: 20px;
+  }
+  .search-field:focus {
+    background: #fff;
   }
   .search-results {
     position: absolute;

@@ -7,7 +7,7 @@
   --color-brand-dark: #3b2859;
   --color-lav: #5d3f8e;
   --color-lav-soft: #efe7f7;
-  --color-cream: #f7f3fb;
+  --color-cream: #f6f3f9;
   --color-paper: #ffffff;
   --color-line: #e2d9ec;
   --color-muted: #625a6e;
@@ -15,10 +15,10 @@
   --color-sale: #b3261e;
   --color-stock: #2e7d4f;
 
-  --font-sans: 'Nunito', system-ui, sans-serif;
+  --font-sans: 'Manrope', system-ui, sans-serif;
   --font-script: 'Dancing Script', cursive;
 
-  --radius-ui: 8px;
+  --radius-ui: 12px;
 }
 
 @layer base {
@@ -26,7 +26,7 @@
     --header-h: 152px;
     --wrap: 1200px;
     --gutter: clamp(16px, 4vw, 40px);
-    --section: clamp(40px, 5vw, 64px);
+    --section: clamp(48px, 6vw, 84px);
   }
   html {
     scroll-behavior: smooth;
@@ -44,14 +44,15 @@
   h2,
   h3 {
     font-weight: 800;
-    line-height: 1.2;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
     color: var(--color-ink);
   }
   h1 {
     font-size: clamp(1.8rem, 3.4vw, 2.6rem);
   }
   h2 {
-    font-size: clamp(1.4rem, 2.2vw, 1.75rem);
+    font-size: clamp(1.5rem, 2.6vw, 2.1rem);
   }
   h3 {
     font-size: 1.15rem;
@@ -98,7 +99,8 @@
     border: 1px solid var(--color-brand);
     transition:
       background 180ms ease-out,
-      color 180ms ease-out;
+      color 180ms ease-out,
+      transform 180ms ease-out;
     cursor: pointer;
   }
   .btn:hover {
@@ -153,16 +155,14 @@
     align-items: baseline;
     justify-content: space-between;
     gap: 8px 24px;
-    padding-bottom: 12px;
-    margin-bottom: 24px;
-    border-bottom: 2px solid var(--color-brand);
+    margin-bottom: 28px;
   }
   .field {
     width: 100%;
     min-height: 48px;
     padding: 10px 14px;
     border: 1px solid var(--color-line);
-    border-radius: var(--radius-ui);
+    border-radius: 10px;
     background: #fff;
     font: inherit;
   }
