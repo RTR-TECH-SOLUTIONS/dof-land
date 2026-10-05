@@ -48,12 +48,12 @@ const deals = products.filter((p) => p.oldPrice).slice(0, 4);
   <section class="section">
     <div class="wrap">
       <div class="section-head"><h2>Categorii</h2></div>
-      <ul class="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-5 lg:grid-cols-6">
+      <ul class="grid grid-cols-3 gap-x-4 gap-y-6 md:gap-x-8 lg:grid-cols-6">
         {
           categories.map((c) => (
             <li>
               <a href={u(`/magazin?categorie=${c.slug}`)} class="cat">
-                <Image src={img(c.image)} alt="" width={520} height={390} fit="cover" loading="lazy" />
+                <Image src={img(c.image)} alt="" width={360} height={360} fit="cover" loading="lazy" />
                 <span>{c.name}</span>
               </a>
             </li>
@@ -69,7 +69,7 @@ const deals = products.filter((p) => p.oldPrice).slice(0, 4);
         <h2>Cele mai vândute</h2>
         <a href={u('/magazin')} class="link">Vezi toate produsele</a>
       </div>
-      <div class="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-5">
+      <div class="grid grid-cols-2 gap-x-4 gap-y-8 md:grid-cols-4 md:gap-x-6">
         {bestsellers.map((p) => <ProductCard product={p} />)}
       </div>
     </div>
@@ -93,7 +93,7 @@ const deals = products.filter((p) => p.oldPrice).slice(0, 4);
         <h2>Promoții și pachete</h2>
         <a href={u('/magazin?categorie=promotii')} class="link">Toate promoțiile</a>
       </div>
-      <div class="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-5">
+      <div class="grid grid-cols-2 gap-x-4 gap-y-8 md:grid-cols-4 md:gap-x-6">
         {deals.map((p) => <ProductCard product={p} />)}
       </div>
     </div>
@@ -160,8 +160,11 @@ const deals = products.filter((p) => p.oldPrice).slice(0, 4);
   .hero-main {
     display: grid;
     background: var(--color-lav-soft);
-    border-radius: var(--radius-ui);
+    border-radius: 18px;
     overflow: hidden;
+  }
+  .hero-main h1 {
+    font-size: clamp(2rem, 4vw, 3.1rem);
   }
   .hero-main img {
     aspect-ratio: 4 / 3;
@@ -178,17 +181,28 @@ const deals = products.filter((p) => p.oldPrice).slice(0, 4);
     margin-bottom: 6px;
   }
   .hero-side {
+    position: relative;
     display: grid;
-    grid-template-rows: 1fr auto;
-    border: 1px solid var(--color-line);
-    border-radius: var(--radius-ui);
+    border-radius: 18px;
     overflow: hidden;
+  }
+  .hero-side img {
+    transition: transform 500ms ease-out;
+  }
+  .hero-side:hover img {
+    transform: scale(1.04);
   }
   .hero-side img {
     aspect-ratio: 16 / 9;
   }
   .hero-side div {
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
     padding: 12px 14px;
+    background: rgb(255 255 255 / 0.94);
+    border-radius: 12px;
   }
   .hero-side h2 {
     font-size: 1.05rem;
@@ -204,7 +218,7 @@ const deals = products.filter((p) => p.oldPrice).slice(0, 4);
     .hero {
       grid-template-columns: 2.2fr 1fr;
       grid-template-rows: 1fr 1fr;
-      height: 470px;
+      height: 520px;
     }
     .hero-main {
       grid-row: 1 / 3;
@@ -216,7 +230,7 @@ const deals = products.filter((p) => p.oldPrice).slice(0, 4);
       min-height: 0;
     }
     .hero-text {
-      padding: 36px;
+      padding: 48px;
     }
     .hero-side {
       min-height: 0;
@@ -230,69 +244,53 @@ const deals = products.filter((p) => p.oldPrice).slice(0, 4);
   .trust {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    margin-top: 12px;
-    border: 1px solid var(--color-line);
-    border-radius: var(--radius-ui);
+    gap: 6px 20px;
+    margin-top: 16px;
+    padding: 16px 20px;
+    background: var(--color-cream);
+    border-radius: 18px;
     font-size: 0.92rem;
   }
-  .trust li {
-    padding: 10px 14px;
-    border-color: var(--color-line);
-  }
-  .trust li:nth-child(odd) {
-    border-right: 1px solid var(--color-line);
-  }
-  .trust li:nth-child(-n + 2) {
-    border-bottom: 1px solid var(--color-line);
-  }
   .trust b {
-    color: var(--color-brand);
+    display: block;
+    color: var(--color-ink);
   }
   @media (min-width: 900px) {
     .trust {
       grid-template-columns: repeat(4, 1fr);
-    }
-    .trust li {
-      border-bottom: 0 !important;
-      border-right: 1px solid var(--color-line);
-      text-align: center;
-    }
-    .trust li:last-child {
-      border-right: 0;
+      padding: 18px 28px;
     }
   }
 
   .cat {
     display: block;
-    border: 1px solid var(--color-line);
-    border-radius: var(--radius-ui);
-    overflow: hidden;
+    text-align: center;
   }
   .cat img {
     width: 100%;
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 1;
     object-fit: cover;
+    border-radius: 50%;
+    transition: transform 300ms ease-out;
+  }
+  .cat:hover img {
+    transform: scale(1.05);
   }
   .cat span {
-    display: grid;
-    place-items: center;
-    min-height: 3.6em;
+    display: block;
+    margin-top: 12px;
+    font-weight: 700;
     line-height: 1.25;
-    padding: 8px 10px;
-    font-weight: 800;
-    text-align: center;
-    background: var(--color-lav-soft);
   }
   .cat:hover span {
-    background: var(--color-brand);
-    color: #fff;
+    color: var(--color-brand);
   }
 
   .promo {
     display: grid;
     background: var(--color-brand);
     color: #fff;
-    border-radius: var(--radius-ui);
+    border-radius: 18px;
     overflow: hidden;
   }
   .promo img {
@@ -314,9 +312,10 @@ const deals = products.filter((p) => p.oldPrice).slice(0, 4);
     background: #fff;
     color: var(--color-sale);
     font-weight: 800;
-    font-size: 0.85rem;
-    padding: 3px 10px;
-    margin-bottom: 10px;
+    font-size: 0.8rem;
+    padding: 4px 12px;
+    border-radius: 999px;
+    margin-bottom: 12px;
   }
   .promo .btn {
     background: #fff;
@@ -346,7 +345,7 @@ const deals = products.filter((p) => p.oldPrice).slice(0, 4);
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 6px;
+    border-radius: 14px;
   }
   .edu-photos img:first-child {
     grid-column: 1 / 3;
@@ -360,7 +359,8 @@ const deals = products.filter((p) => p.oldPrice).slice(0, 4);
     margin-top: 16px;
     border-collapse: collapse;
     background: #fff;
-    border: 1px solid var(--color-line);
+    border-radius: 12px;
+    overflow: hidden;
     font-size: 0.95rem;
   }
   .edu-table th,
