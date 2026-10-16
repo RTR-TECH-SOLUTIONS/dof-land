@@ -52,8 +52,9 @@ import { site, waLink } from '../data/site';
 <div
   id="cart-config"
   hidden
-  data-free={site.freeShippingFrom}
+  data-free={site.freeShippingFrom ?? ''}
   data-shipping={site.shippingCost}
+  data-courier={site.courier}
   data-wa={waLink('')}
 >
 </div>
@@ -143,11 +144,13 @@ import { site, waLink } from '../data/site';
     if (!items.length) return;
 
     const subtotal = items.reduce((s, i) => s + i.price * i.qty, 0);
-    const free = Number(config.free);
+    const free = config.free ? Number(config.free) : Infinity;
     const shipping = subtotal >= free ? 0 : Number(config.shipping);
-    shippingEl.textContent = shipping
-      ? `Livrare ${lei(shipping)}. Mai adăugați ${lei(free - subtotal)} pentru livrare gratuită.`
-      : 'Livrare gratuită pentru această comandă.';
+    shippingEl.textContent = !shipping
+      ? 'Livrare gratuită pentru această comandă.'
+      : free === Infinity
+        ? `Livrare prin ${config.courier}: ${lei(shipping)}.`
+        : `Livrare ${lei(shipping)}. Mai adăugați ${lei(free - subtotal)} pentru livrare gratuită.`;
     totalEl.textContent = lei(subtotal + shipping);
 
     const lines = items.map((i) => `${i.qty} x ${i.name}`).join('\n');

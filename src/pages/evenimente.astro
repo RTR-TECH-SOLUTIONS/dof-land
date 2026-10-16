@@ -2,40 +2,89 @@
 import { Image } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
 import { img } from '../data/products';
+import { calendar, eventDay } from '../data/garden';
 import { site, waLink } from '../data/site';
 
-// TODO(real): tarifele, durata și ce este inclus se confirmă cu clienta.
+// TODO(real): capacitatea, durata și tariful vin din mesajele și documentul clientei; de confirmat.
 const included = [
   ['Capacitate', 'maximum 30 de persoane, copii și adulți'],
   ['Spațiu', 'mese și bănci în aer liber, zonă acoperită pentru ploaie'],
-  ['Pentru copii', 'loc de joacă din lemn și, la cerere, un atelier de plantare sau cu lavandă'],
+  ['Tarif', 'de la 700 lei pe grup, cu un atelier ales, decor simplu, activitate ghidată și zonă rezervată'],
+  ['Rezervare', 'cu avans de 30%; condițiile de anulare și reprogramare le primiți în scris'],
   ['Mâncare și tort', 'le aduceți dumneavoastră sau prin firma de catering aleasă'],
-  ['Durată', '3 ore, cu posibilitate de prelungire'],
+  ['Durată', '2 - 3 ore'],
   ['Perioadă', 'aprilie - octombrie, cu rezervare'],
 ];
 ---
 
-<Layout title="Evenimente | Petreceri și zile de naștere la Dof Land" description="Petreceri și zile de naștere în grădină, pentru maximum 30 de persoane, la Dof Land, Poienarii Burchii.">
+<Layout title="Evenimente | Calendarul 2027 și petreceri la Dof Land" description="Evenimente de weekend pentru familii, din aprilie până în octombrie, și petreceri private pentru maximum 30 de persoane, la Dof Land, Poienarii Burchii.">
   <section class="bg-cream border-b border-line">
     <div class="wrap grid items-center gap-8 py-8 md:grid-cols-2 md:gap-12 md:py-10">
       <div>
-        <h1>Petreceri și zile de naștere în grădină</h1>
+        <h1>Evenimente la Dof Land</h1>
         <p class="lead mt-4">
-          Găzduim evenimente private pentru cel mult 30 de persoane: aniversări pentru copii, petreceri de familie, întâlniri ale clasei. Copiii au unde să alerge, iar adulții stau la masă, între flori.
+          Din aprilie până în octombrie organizăm câte un eveniment pe lună pentru familii, fiecare cu tema lui. În restul timpului, grădina se poate rezerva pentru aniversări și petreceri private, de până la 30 de persoane.
         </p>
         <div class="mt-6 flex flex-wrap gap-3">
-          <a class="btn" href={waLink('Bună ziua! Doresc să rezerv Dof Land pentru un eveniment. Data: ... Număr de persoane: ...')} target="_blank" rel="noopener">Cere ofertă pe WhatsApp</a>
-          <a class="btn btn-outline" href={site.phoneHref}>Sunați: {site.phone}</a>
+          <a class="btn" href="#calendar">Calendarul 2027</a>
+          <a class="btn btn-outline" href="#petreceri">Petreceri private</a>
         </div>
       </div>
       <Image src={img('masa-lavanda-client')} alt="Masă în aer liber, cu față de masă cu lavandă și coș cu lavandă uscată" width={900} height={680} fit="cover" loading="eager" class="aspect-[4/3] w-full rounded-lg object-cover" />
     </div>
   </section>
 
-  <section class="section">
+  <section class="section" id="calendar">
+    <div class="wrap">
+      <div class="section-head"><h2>Calendarul sezonului 2027</h2></div>
+      <ol class="cal">
+        {
+          calendar.map((c) => (
+            <li>
+              <p class="cal-month">{c.month}</p>
+              <div>
+                <h3>{c.theme}</h3>
+                <p class="mt-1.5">{c.activities}</p>
+                <p class="mt-1.5 text-[0.94rem] text-muted">{c.audience}</p>
+              </div>
+              <p class="cal-price">
+                {c.price.split(', ').map((line) => <span class="block">{line}</span>)}
+              </p>
+            </li>
+          ))
+        }
+      </ol>
+      <p class="mt-5 max-w-[70ch] text-[0.94rem] text-muted">
+        Datele exacte le anunțăm cu patru săptămâni înainte, pe Facebook, pe Instagram și aici. Ele depind de vreme și de cât de repede înfloresc plantele. În 2027, Paștele ortodox este în mai, așa că evenimentul de primăvară se poate muta în jurul lui.
+      </p>
+    </div>
+  </section>
+
+  <section class="section bg-cream border-y border-line">
+    <div class="wrap grid gap-8 md:grid-cols-[1fr_1.2fr] md:gap-14">
+      <div>
+        <h2>Cum arată o zi de eveniment</h2>
+        <p class="lead mt-4">Trei ore și jumătate, cu activități la ore fixe. Locurile la atelierul principal sunt limitate, de aceea le rezervați dinainte.</p>
+        <a class="btn mt-6" href={waLink('Bună ziua! Doresc să rezerv locuri la evenimentul Dof Land din luna: ... Număr de copii: ... Număr de adulți: ...')} target="_blank" rel="noopener">Rezervă locuri pe WhatsApp</a>
+      </div>
+      <ol class="divide-y divide-line border-y border-line">
+        {
+          eventDay.map(([time, what]) => (
+            <li class="flex gap-6 py-3.5">
+              <span class="w-14 flex-none font-extrabold text-lav">{time}</span>
+              <span>{what}</span>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="section" id="petreceri">
     <div class="wrap grid gap-8 md:grid-cols-[1.3fr_1fr] md:gap-12">
       <div>
-        <div class="section-head"><h2>Ce trebuie să știți</h2></div>
+        <div class="section-head"><h2>Petreceri și zile de naștere</h2></div>
+        <p class="-mt-2 mb-5 max-w-[60ch]">Aniversări pentru copii, petreceri de familie, întâlniri ale clasei. Copiii au unde să alerge, iar adulții stau la masă, între flori.</p>
         <dl class="divide-y divide-line border-b border-line">
           {
             included.map(([k, v]) => (
@@ -48,9 +97,40 @@ const included = [
         </dl>
       </div>
       <div class="grid content-start gap-3">
+        <div class="mb-3 flex flex-wrap gap-3">
+          <a class="btn" href={waLink('Bună ziua! Doresc să rezerv Dof Land pentru un eveniment privat. Data: ... Număr de persoane: ...')} target="_blank" rel="noopener">Cere ofertă pe WhatsApp</a>
+          <a class="btn btn-outline" href={site.phoneHref}>Sunați: {site.phone}</a>
+        </div>
         <Image src={img('atelier-cos-client')} alt="Stropitoare și coș de răchită pe masa de atelier" width={700} height={500} fit="cover" loading="lazy" class="aspect-[7/5] w-full rounded-lg object-cover" />
         <Image src={img('cosuri-client')} alt="Felinar de răchită și coș cu lavandă uscată" width={700} height={500} fit="cover" loading="lazy" class="aspect-[7/5] w-full rounded-lg object-cover" />
       </div>
     </div>
   </section>
 </Layout>
+
+<style>
+  .cal {
+    border-top: 1px solid var(--color-ink);
+  }
+  .cal > li {
+    display: grid;
+    gap: 6px 32px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--color-line);
+  }
+  .cal-month {
+    font-weight: 800;
+    color: var(--color-lav);
+  }
+  .cal-price {
+    font-weight: 700;
+  }
+  @media (min-width: 768px) {
+    .cal > li {
+      grid-template-columns: 120px 1fr 220px;
+    }
+    .cal-price {
+      text-align: right;
+    }
+  }
+</style>

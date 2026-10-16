@@ -2,38 +2,14 @@
 import { Image } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
 import { img } from '../data/products';
+import { schoolPackages, workshops } from '../data/garden';
 import { site, waLink } from '../data/site';
 
-// TODO(real): durata, vârstele și tarifele se confirmă cu clienta.
-const workshops = [
-  {
-    name: 'Atelier de plantare',
-    image: 'atelier-masa-client',
-    alt: 'Lopățele, pământ și răsaduri de căpșun pe masa de atelier',
-    text: 'Fiecare copil primește un ghiveci, pământ și un stolon de căpșun. Îl plantează singur, îl udă și îl ia acasă.',
-    facts: ['90 de minute', '4 - 12 ani', 'Aprilie - octombrie'],
-  },
-  {
-    name: 'Atelier cu lavandă',
-    image: 'lavanda-vrac-client',
-    alt: 'Flori de lavandă uscate pe tavă, cu săculeți de organza',
-    text: 'Copiii scutură florile uscate, umplu un săculeț de organza și îl leagă cu fundă. Pleacă acasă cu săculețul făcut de ei.',
-    facts: ['60 de minute', '3 - 12 ani', 'Tot anul'],
-  },
-  {
-    name: 'Plante și insecte, la lupă',
-    image: 'gradina-lazi',
-    alt: 'Straturi înălțate cu legume, în grădină',
-    text: 'Mergem printre straturi cu lupa și cu fișa de observație. Căutăm buburuze, albine și râme și aflăm ce treabă are fiecare în grădină.',
-    facts: ['90 de minute', '5 - 12 ani', 'Mai - septembrie'],
-  },
-  {
-    name: 'Școala Verde, program de o zi',
-    image: 'masa-lavanda-client',
-    alt: 'Masa de lucru în aer liber, cu fișe și coș cu lavandă',
-    text: 'Două ateliere la alegere, o lecție despre sol și pH, pauză de masă în aer liber și timp la locul de joacă. La final, fiecare copil primește diplomă.',
-    facts: ['4 ore', 'Clasele pregătitoare - a VI-a', 'În săptămâna Școala Verde și la cerere'],
-  },
+const packageImages = [
+  { image: 'gradina-lazi', alt: 'Straturi înălțate cu legume, în grădină' },
+  { image: 'atelier-masa-client', alt: 'Lopățele, pământ și răsaduri de căpșun pe masa de atelier' },
+  { image: 'atelier-cos-client', alt: 'Stropitoare, coș de răchită și ghivece pe masa de atelier' },
+  { image: 'masa-lavanda-client', alt: 'Masa de lucru în aer liber, cu coș cu lavandă și dovleci' },
 ];
 
 const steps = [
@@ -70,25 +46,57 @@ const steps = [
 
   <section class="section">
     <div class="wrap">
-      <h2>Atelierele noastre</h2>
-      <p class="lead mt-4">Grupuri de 10 până la 30 de copii. Cadrele didactice însoțitoare nu plătesc.</p>
+      <h2>Pachete pentru grădinițe și școli</h2>
+      <p class="lead mt-4">
+        Minimum 15 copii pe grup. Transportul și masa se ofertează separat, iar rezervarea se confirmă cu un avans.
+      </p>
 
       <div class="mt-10 divide-y divide-line border-y border-line">
         {
-          workshops.map((w) => (
-            <article class="grid gap-5 py-7 md:grid-cols-[220px_1fr_240px] md:items-center md:gap-10">
-              <Image src={img(w.image)} alt={w.alt} width={440} height={330} fit="cover" loading="lazy" class="aspect-[4/3] w-full rounded-[10px] object-cover" />
+          schoolPackages.map((p, i) => (
+            <article class="grid gap-5 py-7 md:grid-cols-[220px_1fr_200px] md:items-center md:gap-10">
+              <Image src={img(packageImages[i].image)} alt={packageImages[i].alt} width={440} height={330} fit="cover" loading="lazy" class="aspect-[4/3] w-full rounded-[10px] object-cover" />
               <div>
-                <h3>{w.name}</h3>
-                <p class="mt-2 max-w-[56ch]">{w.text}</p>
+                <h3>
+                  Pachetul {i + 1}: {p.name}
+                </h3>
+                <p class="mt-2 max-w-[56ch]">{p.includes}</p>
               </div>
               <ul class="space-y-1.5 text-[0.98rem]">
-                {w.facts.map((f) => <li class="check">{f}</li>)}
+                <li class="check">{p.duration}</li>
+                <li class="check font-bold">de la {p.price} lei / elev</li>
               </ul>
             </article>
           ))
         }
       </div>
+    </div>
+  </section>
+
+  <section class="section !pt-0">
+    <div class="wrap">
+      <h2>Ateliere</h2>
+      <p class="lead mt-4">Se pot alege separat sau în completarea unui pachet. Materialele sunt incluse.</p>
+      <div class="mt-8">
+        <table class="ws-table">
+          <thead>
+            <tr><th scope="col">Atelier</th><th scope="col">Durată</th><th scope="col">Ce include</th><th scope="col">Preț</th></tr>
+          </thead>
+          <tbody>
+            {
+              workshops.map((w) => (
+                <tr>
+                  <th scope="row">{w.name}</th>
+                  <td class="whitespace-nowrap">{w.duration}</td>
+                  <td>{w.includes}</td>
+                  <td class="whitespace-nowrap font-bold">{w.price}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+      <p class="mt-4 text-[0.94rem] text-muted">Tarife pentru sezonul 2027.</p>
     </div>
   </section>
 
@@ -148,16 +156,21 @@ const steps = [
         </div>
         <div>
           <label class="label" for="copii">Număr de copii</label>
-          <input class="field" id="copii" name="copii" type="number" min="5" max="60" required inputmode="numeric" />
+          <input class="field" id="copii" name="copii" type="number" min="15" max="60" required inputmode="numeric" />
         </div>
         <div>
           <label class="label" for="data">Data dorită</label>
           <input class="field" id="data" name="data" type="date" required />
         </div>
         <div class="md:col-span-2">
-          <label class="label" for="atelier">Atelier</label>
+          <label class="label" for="atelier">Pachet sau atelier</label>
           <select class="field" id="atelier" name="atelier">
-            {workshops.map((w) => <option>{w.name}</option>)}
+            <optgroup label="Pachete">
+              {schoolPackages.map((p, i) => <option>Pachetul {i + 1}: {p.name}</option>)}
+            </optgroup>
+            <optgroup label="Ateliere">
+              {workshops.map((w) => <option>{w.name}</option>)}
+            </optgroup>
             <option>Nu știu încă, vreau o recomandare</option>
           </select>
         </div>
@@ -177,6 +190,55 @@ const steps = [
 <style>
   .light-checks .check::before {
     border-color: #cdbbe0;
+  }
+  .ws-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+  }
+  .ws-table th,
+  .ws-table td {
+    padding: 14px 16px 14px 0;
+    border-bottom: 1px solid var(--color-line);
+    vertical-align: top;
+  }
+  .ws-table thead th {
+    font-size: 0.88rem;
+    color: var(--color-muted);
+    border-bottom-color: var(--color-ink);
+  }
+  .ws-table tbody th {
+    font-weight: 800;
+  }
+  @media (max-width: 767px) {
+    .ws-table thead {
+      display: none;
+    }
+    .ws-table tr {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 4px 16px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--color-line);
+    }
+    .ws-table th,
+    .ws-table td {
+      padding: 0;
+      border: 0;
+    }
+    .ws-table td:nth-of-type(1) {
+      grid-row: 2;
+      color: var(--color-muted);
+    }
+    .ws-table td:nth-of-type(2) {
+      grid-column: 1 / -1;
+      grid-row: 3;
+    }
+    .ws-table td:nth-of-type(3) {
+      grid-column: 2;
+      grid-row: 1;
+      text-align: right;
+    }
   }
   .field[aria-invalid='true'] {
     border-color: #a23b3b;

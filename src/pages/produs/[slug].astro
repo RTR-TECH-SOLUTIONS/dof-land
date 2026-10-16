@@ -3,7 +3,7 @@ import { getImage, Image } from 'astro:assets';
 import ProductCard from '../../components/ProductCard.astro';
 import Layout from '../../layouts/Layout.astro';
 import { categoryName, img, products, type Product } from '../../data/products';
-import { lei, site, u, waLink } from '../../data/site';
+import { lei, shippingNote, u, waLink } from '../../data/site';
 
 export function getStaticPaths() {
   return products.map((product) => ({ params: { slug: product.slug }, props: { product } }));
@@ -41,7 +41,7 @@ const similar = related.length >= 2 ? related : products.filter((p) => p.slug !=
     <div>
       <h1 class="!text-[clamp(1.5rem,2.6vw,2rem)]">{product.name}</h1>
       <p class="mt-4 flex items-baseline gap-3">
-        <span class="text-[1.7rem] font-bold text-lav">{lei(product.price)}</span>
+        <span class="text-[1.7rem] font-bold text-lav">{product.priceFrom && 'de la '}{lei(product.price)}</span>
         {product.oldPrice && <s class="text-muted">{lei(product.oldPrice)}</s>}
         <span class="text-muted">/ {product.unit}</span>
       </p>
@@ -78,7 +78,7 @@ const similar = related.length >= 2 ? related : products.filter((p) => p.slug !=
             {
               product.pickupOnly
                 ? 'Acest produs se ridică de la grădină, nu se trimite prin curier.'
-                : `Prin curier, în 1 - 3 zile lucrătoare. Gratuită peste ${site.freeShippingFrom} lei.`
+                : shippingNote
             }
           </dd>
         </div>

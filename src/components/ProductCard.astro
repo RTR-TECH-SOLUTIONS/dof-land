@@ -29,8 +29,11 @@ const stock = product.pickupOnly
     </h3>
     <p class:list={['mt-1.5 text-[0.85rem] font-bold', stock.cls]}>{stock.text}</p>
     <p class="mb-3 mt-auto flex flex-wrap items-baseline gap-x-2 pt-3">
-      <span class:list={['text-[1.2rem] font-extrabold', off ? 'text-sale' : 'text-ink']}>{lei(product.price)}</span>
+      <span class:list={['text-[1.2rem] font-extrabold', off ? 'text-sale' : 'text-ink']}>
+        {product.priceFrom && <span class="text-[0.9rem] font-bold">de la </span>}{lei(product.price)}
+      </span>
       {product.oldPrice && <s class="text-[0.9rem] text-muted">{lei(product.oldPrice)}</s>}
+      <span class="text-[0.85rem] text-muted">/ {product.unit}</span>
     </p>
     <button type="button" class="btn btn-outline btn-sm w-full" data-add data-id={product.slug} data-name={product.name} data-price={product.price} data-img={thumb.src}>
       Adaugă în coș

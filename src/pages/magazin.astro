@@ -2,7 +2,7 @@
 import ProductCard from '../components/ProductCard.astro';
 import Layout from '../layouts/Layout.astro';
 import { categories, products } from '../data/products';
-import { site } from '../data/site';
+import { shippingNote } from '../data/site';
 ---
 
 <Layout title="Magazin | Dof Land">
@@ -10,7 +10,7 @@ import { site } from '../data/site';
     <div class="wrap py-6 md:py-8">
       <h1>Magazin</h1>
       <p class="lead mt-3">
-        Tot ce găsiți aici crește la noi în grădină. Expediem de luni până joi, iar comenzile de peste {site.freeShippingFrom} lei au livrarea gratuită.
+        Răsaduri, stoloni de căpșuni, lavandă, miere și seturi cadou de la Dof Land. {shippingNote}
       </p>
     </div>
   </section>
@@ -25,7 +25,6 @@ import { site } from '../data/site';
           </button>
         ))
       }
-      <button type="button" class="chip chip-sale" data-filter="promotii" aria-pressed="false">Promoții</button>
     </div>
     <p class="mt-5 text-muted" aria-live="polite" data-result-count></p>
 
