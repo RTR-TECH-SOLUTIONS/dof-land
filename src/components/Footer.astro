@@ -1,4 +1,6 @@
 ---
+import { Image } from 'astro:assets';
+import logoLight from '../assets/brand/logo-light.png';
 import { categories } from '../data/products';
 import { site, u } from '../data/site';
 ---
@@ -6,8 +8,7 @@ import { site, u } from '../data/site';
 <footer class="bg-brand-dark text-white/85 mt-auto">
   <div class="wrap grid gap-10 py-14 md:grid-cols-[1.3fr_1fr_1fr_1.2fr]">
     <div>
-      <p class="text-white text-[2.2rem] leading-none" style="font-family: var(--font-script)">Dof Land</p>
-      <p class="mt-1 text-[0.85rem] font-bold text-white/80">Un colț de rai</p>
+      <Image src={logoLight} alt="Dof Land, un colț de rai" width={320} class="h-auto w-[180px]" loading="lazy" />
       <p class="mt-5 max-w-[34ch]">
         Căpșuni, lavandă, flori și grădină educativă, pe 5000 mp, la {site.locality}.
       </p>

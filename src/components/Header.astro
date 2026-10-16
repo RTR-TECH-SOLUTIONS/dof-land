@@ -1,5 +1,6 @@
 ---
-import { getImage } from 'astro:assets';
+import { getImage, Image } from 'astro:assets';
+import logo from '../assets/brand/logo.png';
 import { img, products } from '../data/products';
 import { lei, nav, shippingNote, site, u } from '../data/site';
 
@@ -39,8 +40,7 @@ const index = await Promise.all(
     </button>
 
     <a href={u('/')} class="logo flex-none leading-none" aria-label="Dof Land, pagina principală">
-      <span class="logo-name">Dof Land</span>
-      <span class="logo-tag">Un colț de rai</span>
+      <Image src={logo} alt="Dof Land, un colț de rai" width={320} class="logo-img" loading="eager" />
     </a>
 
     <form class="search relative hidden flex-1 md:block" role="search" action={u('/magazin')} data-search>
@@ -116,19 +116,10 @@ const index = await Promise.all(
 <script type="application/json" id="search-index" set:html={JSON.stringify(index)} />
 
 <style>
-  .logo-name {
+  .logo-img {
     display: block;
-    font-family: var(--font-script);
-    font-size: clamp(1.9rem, 3vw, 2.5rem);
-    color: var(--color-brand);
-  }
-  .logo-tag {
-    display: block;
-    font-size: 0.78rem;
-    font-weight: 700;
-    color: var(--color-gold);
-    letter-spacing: 0.02em;
-    margin-top: 2px;
+    width: auto;
+    height: clamp(56px, 6.4vw, 84px);
   }
   .search-field {
     background: var(--color-cream);
