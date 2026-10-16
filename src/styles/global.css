@@ -4,21 +4,23 @@
 @theme {
   --color-ink: #2b1f27;
   --color-brand: #5e2a4c;
-  --color-brand-dark: #3d1a31;
+  --color-brand-dark: #22161d;
+  --color-night: #1a1215;
   --color-lav: #5e2a4c;
   --color-lav-soft: #f6ecf0;
   --color-cream: #faf5f3;
   --color-paper: #ffffff;
   --color-line: #ecdfe3;
   --color-muted: #675a62;
-  --color-gold: #9a5a3f;
+  --color-gold: #d4ad66;
+  --color-copper: #94553b;
   --color-sale: #b3261e;
   --color-stock: #2e7d4f;
 
   --font-sans: 'Manrope', system-ui, sans-serif;
-  --font-script: 'Dancing Script', cursive;
+  --font-serif: 'Marcellus', Georgia, serif;
 
-  --radius-ui: 12px;
+  --radius-ui: 10px;
 }
 
 @layer base {
@@ -48,11 +50,19 @@
     letter-spacing: -0.02em;
     color: var(--color-ink);
   }
+  /* Titlurile mari în serif roman, ca literele din logo; numele de produs rămân în sans. */
+  h1,
+  h2 {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 1.12;
+  }
   h1 {
-    font-size: clamp(1.8rem, 3.4vw, 2.6rem);
+    font-size: clamp(2rem, 3.8vw, 2.9rem);
   }
   h2 {
-    font-size: clamp(1.5rem, 2.6vw, 2.1rem);
+    font-size: clamp(1.6rem, 2.8vw, 2.25rem);
   }
   h3 {
     font-size: 1.15rem;
@@ -114,6 +124,16 @@
   .btn-outline:hover {
     background: var(--color-brand);
     color: #fff;
+  }
+  .btn-gold {
+    background: var(--color-gold);
+    border-color: var(--color-gold);
+    color: var(--color-night);
+  }
+  .btn-gold:hover {
+    background: #e6c47f;
+    border-color: #e6c47f;
+    color: var(--color-night);
   }
   .btn-sm {
     min-height: 42px;

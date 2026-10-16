@@ -1,5 +1,6 @@
 ---
 import { Image } from 'astro:assets';
+import honeyLabel from '../assets/brand/eticheta-miere.png';
 import ProductCard from '../components/ProductCard.astro';
 import Layout from '../layouts/Layout.astro';
 import { schoolPackages } from '../data/garden';
@@ -16,10 +17,10 @@ const garden = ['rasad-muscate', 'rasad-petunii', 'plante-aromatice-mix-6', 'lea
       <a href={u('/magazin?categorie=lavanda')} class="hero-main">
         <Image src={img('saculeti-client')} alt="Săculeți cu lavandă Dof Land, lângă un coș cu lavandă uscată" width={1100} height={1100} fit="cover" position="bottom" loading="eager" fetchpriority="high" />
         <div class="hero-text">
-          <p class="hero-script">Din lanul nostru</p>
+          <p class="hero-kicker">Din grădina noastră, Poienarii Burchii</p>
           <h1>Săculeți cu lavandă, de la 12,99 lei</h1>
           <p class="mt-2 max-w-[34ch]">Set de 3 săculeți de 50 g sau de 5 săculeți de 30 g, pentru dulapuri și sertare.</p>
-          <span class="btn mt-5">Cumpără acum</span>
+          <span class="btn btn-gold mt-6">Cumpără acum</span>
         </div>
       </a>
       <a href={u('/magazin?categorie=capsuni')} class="hero-side">
@@ -76,7 +77,28 @@ const garden = ['rasad-muscate', 'rasad-petunii', 'plante-aromatice-mix-6', 'lea
     </div>
   </section>
 
-  <section class="wrap">
+  <section class="honey">
+    <div class="wrap honey-inner">
+      <Image src={honeyLabel} alt="Eticheta mierii polifloră Dof Land" width={520} height={520} loading="lazy" class="honey-label" />
+      <div>
+        <p class="hero-kicker">Produse apicole</p>
+        <h2>Miere polifloră Dof Land</h2>
+        <p class="mt-3 max-w-[46ch] text-white/80">
+          Gust dulce și aromă florală, pentru micul dejun, ceai sau deserturi. În borcan de 380 ml sau de 200 ml.
+        </p>
+        <dl class="honey-prices">
+          <div><dt>380 ml</dt><dd>29,99 lei</dd></div>
+          <div><dt>200 ml</dt><dd>18,99 lei</dd></div>
+        </dl>
+        <div class="mt-7 flex flex-wrap gap-3">
+          <a href={u('/produs/miere-poliflora-380ml')} class="btn btn-gold">Comandă mierea</a>
+          <a href={u('/magazin?categorie=miere')} class="btn btn-ghost">Toate produsele apicole</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap section !pb-0">
     <a href={u('/produs/set-cadou-miere-lavanda')} class="promo">
       <Image src={img('set-cadou')} alt="Set cadou cu miere și produse cu lavandă" width={640} height={420} fit="cover" loading="lazy" />
       <div>
@@ -157,12 +179,14 @@ const garden = ['rasad-muscate', 'rasad-petunii', 'plante-aromatice-mix-6', 'lea
   }
   .hero-main {
     display: grid;
-    background: var(--color-lav-soft);
-    border-radius: 18px;
+    background: var(--color-night);
+    color: rgb(255 255 255 / 0.82);
+    border-radius: 12px;
     overflow: hidden;
   }
   .hero-main h1 {
-    font-size: clamp(2rem, 4vw, 3.1rem);
+    font-size: clamp(2.1rem, 4vw, 3.2rem);
+    color: #fff;
   }
   .hero-main img {
     aspect-ratio: 4 / 3;
@@ -171,17 +195,16 @@ const garden = ['rasad-muscate', 'rasad-petunii', 'plante-aromatice-mix-6', 'lea
     padding: 20px;
     align-self: center;
   }
-  .hero-script {
-    font-family: var(--font-script);
-    font-size: 1.7rem;
-    line-height: 1;
-    color: var(--color-brand);
-    margin-bottom: 6px;
+  .hero-kicker {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--color-gold);
+    margin-bottom: 12px;
   }
   .hero-side {
     position: relative;
     display: grid;
-    border-radius: 18px;
+    border-radius: 12px;
     overflow: hidden;
   }
   .hero-side img {
@@ -199,11 +222,11 @@ const garden = ['rasad-muscate', 'rasad-petunii', 'plante-aromatice-mix-6', 'lea
     right: 12px;
     bottom: 12px;
     padding: 12px 14px;
-    background: rgb(255 255 255 / 0.94);
-    border-radius: 12px;
+    background: rgb(255 255 255 / 0.95);
+    border-radius: 8px;
   }
   .hero-side h2 {
-    font-size: 1.05rem;
+    font-size: 1.2rem;
   }
   .hero-side p {
     font-size: 0.9rem;
@@ -243,11 +266,11 @@ const garden = ['rasad-muscate', 'rasad-petunii', 'plante-aromatice-mix-6', 'lea
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 6px 20px;
-    margin-top: 16px;
-    padding: 16px 20px;
-    background: var(--color-cream);
-    border-radius: 18px;
+    margin-top: 20px;
+    padding: 16px 0;
+    border-block: 1px solid var(--color-line);
     font-size: 0.92rem;
+    color: var(--color-muted);
   }
   .trust b {
     display: block;
@@ -256,7 +279,7 @@ const garden = ['rasad-muscate', 'rasad-petunii', 'plante-aromatice-mix-6', 'lea
   @media (min-width: 900px) {
     .trust {
       grid-template-columns: repeat(4, 1fr);
-      padding: 18px 28px;
+      padding: 18px 0;
     }
   }
 
@@ -286,9 +309,9 @@ const garden = ['rasad-muscate', 'rasad-petunii', 'plante-aromatice-mix-6', 'lea
 
   .promo {
     display: grid;
-    background: var(--color-brand);
-    color: #fff;
-    border-radius: 18px;
+    background: var(--color-cream);
+    border: 1px solid var(--color-line);
+    border-radius: 12px;
     overflow: hidden;
   }
   .promo img {
@@ -302,23 +325,66 @@ const garden = ['rasad-muscate', 'rasad-petunii', 'plante-aromatice-mix-6', 'lea
     align-self: center;
   }
   .promo h2 {
-    color: #fff;
-    font-size: clamp(1.4rem, 2.6vw, 2rem);
+    font-size: clamp(1.5rem, 2.6vw, 2.1rem);
   }
   .promo-tag {
-    display: inline-block;
-    background: #fff;
-    color: var(--color-sale);
-    font-weight: 800;
-    font-size: 0.8rem;
-    padding: 4px 12px;
-    border-radius: 999px;
-    margin-bottom: 12px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--color-copper);
+    margin-bottom: 8px;
   }
-  .promo .btn {
-    background: #fff;
+  .promo p:not(.promo-tag) {
+    color: var(--color-muted);
+  }
+
+  .honey {
+    background: var(--color-night);
+    color: #fff;
+  }
+  .honey-inner {
+    display: grid;
+    gap: 32px;
+    align-items: center;
+    padding-block: clamp(40px, 6vw, 72px);
+  }
+  .honey-label {
+    width: min(100%, 420px);
+    height: auto;
+    margin-inline: auto;
+  }
+  .honey h2 {
+    color: #fff;
+  }
+  .honey-prices {
+    display: flex;
+    gap: 32px;
+    margin-top: 24px;
+    padding-top: 18px;
+    border-top: 1px solid rgb(255 255 255 / 0.15);
+  }
+  .honey-prices dt {
+    font-size: 0.9rem;
+    color: rgb(255 255 255 / 0.6);
+  }
+  .honey-prices dd {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--color-gold);
+  }
+  .btn-ghost {
+    background: transparent;
+    border-color: rgb(255 255 255 / 0.35);
+    color: #fff;
+  }
+  .btn-ghost:hover {
+    background: rgb(255 255 255 / 0.08);
     border-color: #fff;
-    color: var(--color-brand);
+  }
+  @media (min-width: 768px) {
+    .honey-inner {
+      grid-template-columns: 1fr 1.1fr;
+      gap: 64px;
+    }
   }
   @media (min-width: 768px) {
     .promo {
