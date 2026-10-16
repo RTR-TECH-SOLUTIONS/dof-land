@@ -41,7 +41,7 @@ const similar = related.length >= 2 ? related : products.filter((p) => p.slug !=
     <div>
       <h1 class="!text-[clamp(1.5rem,2.6vw,2rem)]">{product.name}</h1>
       <p class="mt-4 flex items-baseline gap-3">
-        <span class="text-[1.7rem] font-bold text-lav">{product.priceFrom && 'de la '}{lei(product.price)}</span>
+        <span class="text-[1.7rem] font-bold text-copper">{product.priceFrom && 'de la '}{lei(product.price)}</span>
         {product.oldPrice && <s class="text-muted">{lei(product.oldPrice)}</s>}
         <span class="text-muted">/ {product.unit}</span>
       </p>

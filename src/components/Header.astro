@@ -15,7 +15,7 @@ const index = await Promise.all(
 );
 ---
 
-<div class="bg-brand-dark text-white text-[0.88rem]">
+<div class="bg-night text-white/90 text-[0.88rem]">
   <div class="wrap flex flex-wrap items-center justify-between gap-x-6 gap-y-1 py-2">
     <p class="hidden sm:block">
       {site.locality} · <a href={site.phoneHref} class="font-bold hover:underline">{site.phone}</a>
@@ -124,7 +124,7 @@ const index = await Promise.all(
   .search-field {
     background: var(--color-cream);
     border-color: transparent;
-    border-radius: 999px;
+    border-radius: var(--radius-ui);
     padding-left: 20px;
   }
   .search-field:focus {
