@@ -4,3 +4,4 @@ dist
 .playwright-mcp
 research
 .DS_Store
+client

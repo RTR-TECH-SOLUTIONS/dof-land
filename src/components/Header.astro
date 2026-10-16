@@ -1,7 +1,7 @@
 ---
 import { getImage } from 'astro:assets';
 import { img, products } from '../data/products';
-import { lei, nav, site, u } from '../data/site';
+import { lei, nav, shippingNote, site, u } from '../data/site';
 
 const current = Astro.url.pathname.replace(/\/$/, '') || '/';
 const index = await Promise.all(
@@ -19,7 +19,7 @@ const index = await Promise.all(
     <p class="hidden sm:block">
       {site.locality} · <a href={site.phoneHref} class="font-bold hover:underline">{site.phone}</a>
     </p>
-    <p class="font-bold">Livrare gratuită la comenzi de peste {site.freeShippingFrom} lei</p>
+    <p class="font-bold">{shippingNote}</p>
   </div>
 </div>
 
