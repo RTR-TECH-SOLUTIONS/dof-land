@@ -1,0 +1,152 @@
+---
+import { Image } from 'astro:assets';
+import logoLight from '../assets/brand/logo-light.png';
+import { nav, site, u } from '../data/site';
+
+const left = nav.filter((i) => ['Lavandă', 'Miere', 'Căpșuni', 'Seturi cadou'].includes(i.label));
+const right = nav.filter((i) => ['Grădina educativă', 'Evenimente'].includes(i.label));
+---
+
+<header class="ph" data-ph>
+  <div class="ph-row">
+    <button type="button" class="ph-icon ph-burger" aria-label="Deschide meniul" aria-expanded="false" aria-controls="mobile-nav" data-nav-toggle>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+        <path d="M4 8h16M4 16h16"></path>
+      </svg>
+    </button>
+
+    <nav aria-label="Magazin" class="ph-nav">
+      {left.map((i) => <a href={i.href}>{i.label}</a>)}
+    </nav>
+
+    <a href={u('/premium')} class="ph-logo" aria-label="Dof Land, pagina principală">
+      <Image src={logoLight} alt="Dof Land, un colț de rai" width={320} loading="eager" />
+    </a>
+
+    <div class="ph-end">
+      <nav aria-label="Grădina" class="ph-nav">
+        {right.map((i) => <a href={i.href}>{i.label}</a>)}
+      </nav>
+      <button type="button" class="ph-icon relative" aria-label="Coșul de cumpărături" data-cart-open>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M5 8h14l-1.200 12H6.200L5 8Z"></path>
+          <path d="M9 10V6.500a3 3 0 0 1 6 0V10"></path>
+        </svg>
+        <span class="ph-count" data-cart-count hidden>0</span>
+      </button>
+    </div>
+  </div>
+
+  <nav id="mobile-nav" aria-label="Navigare mobil" class="ph-mobile" hidden>
+    <ul>
+      {nav.map((i) => <li><a href={i.href}>{i.label}</a></li>)}
+      <li><a href={site.phoneHref}>{site.phone}</a></li>
+    </ul>
+  </nav>
+</header>
+
+<style>
+  .ph {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 30;
+    color: #fff;
+    transition:
+      background 250ms ease-out,
+      box-shadow 250ms ease-out;
+  }
+  .ph.is-solid,
+  .ph:has(.ph-mobile:not([hidden])) {
+    background: rgb(26 18 21 / 0.96);
+    box-shadow: 0 1px 0 rgb(212 173 102 / 0.25);
+  }
+  .ph-row {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    max-width: 1320px;
+    margin-inline: auto;
+    padding: 14px var(--gutter);
+  }
+  .ph-logo img {
+    display: block;
+    width: auto;
+    height: clamp(48px, 5vw, 64px);
+  }
+  .ph-nav {
+    gap: clamp(18px, 2vw, 30px);
+    font-size: 0.93rem;
+    letter-spacing: 0.01em;
+  }
+  .ph-nav a {
+    padding-block: 6px;
+    border-bottom: 1px solid transparent;
+    transition: border-color 180ms ease-out;
+  }
+  .ph-nav a:hover {
+    border-color: var(--color-gold);
+  }
+  .ph-end {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: clamp(18px, 2vw, 30px);
+  }
+  .ph-icon {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+  }
+  .ph-burger {
+    margin-left: -10px;
+  }
+  /* Utilitarele Tailwind stau într-un layer, deci afișarea pe ecrane o controlăm aici */
+  .ph-nav {
+    display: none;
+  }
+  @media (min-width: 1024px) {
+    .ph-nav {
+      display: flex;
+    }
+    .ph-burger,
+    .ph-mobile {
+      display: none;
+    }
+  }
+  .ph-count {
+    position: absolute;
+    top: 4px;
+    right: 2px;
+    display: grid;
+    place-items: center;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 4px;
+    border-radius: 9px;
+    background: var(--color-gold);
+    color: var(--color-night);
+    font-size: 0.7rem;
+    font-weight: 800;
+  }
+  .ph-count[hidden] {
+    display: none;
+  }
+  .ph-mobile ul {
+    padding: 4px var(--gutter) 16px;
+  }
+  .ph-mobile a {
+    display: block;
+    padding: 12px 0;
+    border-bottom: 1px solid rgb(255 255 255 / 0.1);
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+  }
+</style>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-ph]')!;
+  const update = () => header.classList.toggle('is-solid', window.scrollY > 40);
+  update();
+  window.addEventListener('scroll', update, { passive: true });
+</script>
