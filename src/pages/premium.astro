@@ -19,12 +19,17 @@ const gifts = pick(['set-cadou-miere-lavanda', 'set-cadou-lavanda', 'set-cadou-d
 
 <Layout title="Dof Land | Un colț de rai la Poienarii Burchii" variant="premium">
   <section class="p-hero">
-    <Image src={img('lan-hero')} alt="Rânduri de lavandă înflorită la apus" width={1800} height={1200} fit="cover" loading="eager" fetchpriority="high" class="p-hero-img" />
+    <div class="p-hero-media" data-parallax="0.25">
+      <Image src={img('lan-hero')} alt="Rânduri de lavandă înflorită la apus" width={1800} height={1200} fit="cover" loading="eager" fetchpriority="high" class="p-hero-img" />
+    </div>
     <div class="p-hero-text">
-      <p class="p-kicker p-kicker-hero">Poienarii Burchii, Prahova</p>
-      <h1>Lavandă, miere și căpșuni din grădina noastră</h1>
-      <p class="p-hero-lead">Le cultivăm pe 5000 de metri pătrați și le trimitem acasă prin {site.courier}.</p>
-      <div class="p-actions">
+      <p class="p-kicker p-kicker-hero p-in" style="--d: 300ms">Poienarii Burchii, Prahova</p>
+      <h1>
+        <span class="p-line"><span style="--d: 450ms">Lavandă, miere și căpșuni</span></span>
+        <span class="p-line"><span style="--d: 600ms">din grădina noastră</span></span>
+      </h1>
+      <p class="p-hero-lead p-in" style="--d: 900ms">Le cultivăm pe 5000 de metri pătrați și le trimitem acasă prin {site.courier}.</p>
+      <div class="p-actions p-in" style="--d: 1050ms">
         <a href={u('/magazin')} class="p-btn p-btn-gold">Intră în magazin</a>
         <a href={u('/gradina-educativa')} class="p-btn p-btn-line">Vizitează grădina</a>
       </div>
@@ -33,8 +38,8 @@ const gifts = pick(['set-cadou-miere-lavanda', 'set-cadou-lavanda', 'set-cadou-d
 
   <section class="p-dark">
     <div class="p-wrap p-intro">
-      <h2>Un colț de rai, făcut cu mâinile noastre</h2>
-      <p>
+      <h2 data-split>Un colț de rai, făcut cu mâinile noastre</h2>
+      <p data-reveal style="--d: 400ms">
         Cultivăm căpșuni, lavandă, trandafiri, lalele și plante aromatice. Lavanda o tăiem vara și o uscăm la umbră, apoi umplem
         săculeții unul câte unul.
       </p>
@@ -43,14 +48,14 @@ const gifts = pick(['set-cadou-miere-lavanda', 'set-cadou-lavanda', 'set-cadou-d
 
   <section class="p-light">
     <div class="p-wrap">
-      <div class="p-head">
+      <div class="p-head" data-reveal>
         <h2>Colecția de lavandă</h2>
         <a href={u('/magazin?categorie=lavanda')} class="p-more">Toate produsele cu lavandă</a>
       </div>
       <div class="p-grid">
         {
-          lavender.map((p) => (
-            <article class="p-card">
+          lavender.map((p, i) => (
+            <article class="p-card" data-reveal style={`--d: ${i * 120}ms`}>
               <a href={u(`/produs/${p.slug}`)} class="p-card-img">
                 <Image src={img(p.image)} alt={p.name} width={600} height={750} fit="cover" loading="lazy" />
               </a>
@@ -67,8 +72,10 @@ const gifts = pick(['set-cadou-miere-lavanda', 'set-cadou-lavanda', 'set-cadou-d
   </section>
 
   <section class="p-honey">
-    <Image src={img('miere-borcan')} alt="Borcan de miere cu linguriță de lemn, între flori de cireș" width={1000} height={1250} fit="cover" loading="lazy" class="p-honey-photo" />
-    <div class="p-honey-text">
+    <div class="p-honey-media" data-reveal="wipe">
+      <Image src={img('miere-borcan')} alt="Borcan de miere cu linguriță de lemn, între flori de cireș" width={1000} height={1250} fit="cover" loading="lazy" class="p-honey-photo" />
+    </div>
+    <div class="p-honey-text" data-reveal>
       <Image src={honeyLabel} alt="Eticheta mierii polifloră Dof Land" width={260} height={260} loading="lazy" class="p-honey-label" />
       <h2>Miere polifloră</h2>
       <p>Gust dulce și aromă florală, pentru micul dejun, ceai sau deserturi.</p>
@@ -82,14 +89,14 @@ const gifts = pick(['set-cadou-miere-lavanda', 'set-cadou-lavanda', 'set-cadou-d
 
   <section class="p-cream">
     <div class="p-wrap">
-      <div class="p-head">
+      <div class="p-head" data-reveal>
         <h2>Seturi cadou</h2>
         <a href={u('/magazin?categorie=cadouri')} class="p-more">Toate seturile</a>
       </div>
       <div class="p-gifts">
         {
           gifts.map((g, i) => (
-            <a href={u(`/produs/${g.slug}`)} class:list={['p-gift', i === 0 && 'p-gift-main']}>
+            <a href={u(`/produs/${g.slug}`)} class:list={['p-gift', i === 0 && 'p-gift-main']} data-reveal="wipe" style={`--d: ${i * 150}ms`}>
               <Image src={img(g.image)} alt="" width={i === 0 ? 1000 : 600} height={i === 0 ? 1000 : 600} fit="cover" loading="lazy" />
               <div>
                 <h3>{g.name}</h3>
@@ -104,18 +111,18 @@ const gifts = pick(['set-cadou-miere-lavanda', 'set-cadou-lavanda', 'set-cadou-d
 
   <section class="p-dark">
     <div class="p-wrap p-garden">
-      <div class="p-garden-photos">
+      <div class="p-garden-photos" data-reveal="wipe">
         <Image src={img('masa-lavanda-client')} alt="Masă cu față de masă cu lavandă, coș cu lavandă uscată și dovleci" width={800} height={1000} fit="cover" loading="lazy" />
         <Image src={img('atelier-masa-client')} alt="Copii care plantează răsaduri de căpșun la masa de lucru" width={600} height={600} fit="cover" loading="lazy" />
       </div>
       <div>
-        <p class="p-kicker">Din aprilie până în octombrie</p>
-        <h2>Grădina educativă</h2>
-        <p class="p-muted">
+        <p class="p-kicker" data-reveal>Din aprilie până în octombrie</p>
+        <h2 data-split>Grădina educativă</h2>
+        <p class="p-muted" data-reveal style="--d: 200ms">
           Primim grădinițe, școli și familii. Copiii plantează, observă insectele și semințele și pleacă acasă cu ghiveciul lor.
         </p>
         <ul class="p-packages">
-          {schoolPackages.map((p) => <li><span>{p.name}</span><span>{p.duration}</span><b>{p.price} lei</b></li>)}
+          {schoolPackages.map((p, i) => <li data-reveal style={`--d: ${250 + i * 90}ms`}><span>{p.name}</span><span>{p.duration}</span><b>{p.price} lei</b></li>)}
         </ul>
         <div class="p-actions">
           <a href={u('/gradina-educativa#oferta')} class="p-btn p-btn-gold">Cere ofertă pentru grup</a>
@@ -126,8 +133,10 @@ const gifts = pick(['set-cadou-miere-lavanda', 'set-cadou-lavanda', 'set-cadou-d
   </section>
 
   <section class="p-visit">
-    <Image src={img('lan-aproape')} alt="Spice de lavandă în lan" width={1800} height={1200} fit="cover" loading="lazy" class="p-visit-img" />
-    <div class="p-visit-box">
+    <div class="p-visit-media" data-parallax="0.18">
+      <Image src={img('lan-aproape')} alt="Spice de lavandă în lan" width={1800} height={1200} fit="cover" loading="lazy" class="p-visit-img" />
+    </div>
+    <div class="p-visit-box" data-reveal>
       <h2>Vă așteptăm la grădină</h2>
       <dl>
         {site.schedule.map((s) => <div><dt>{s.days}</dt><dd>{s.hours}</dd></div>)}
@@ -136,6 +145,56 @@ const gifts = pick(['set-cadou-miere-lavanda', 'set-cadou-lavanda', 'set-cadou-d
     </div>
   </section>
 </Layout>
+
+
+<script is:inline>
+  // Pus înainte de prima randare, ca elementele să nu apară și apoi să dispară
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('motion');
+</script>
+
+<script>
+  import Lenis from 'lenis';
+  import 'lenis/dist/lenis.css';
+
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Titlurile cu data-split se împart în cuvinte, fiecare urcă din spatele unei măști
+  document.querySelectorAll<HTMLElement>('[data-split]').forEach((el) => {
+    const words = el.textContent!.trim().split(/\s+/);
+    el.setAttribute('aria-label', words.join(' '));
+    el.innerHTML = words
+      .map((w, i) => `<span class="w" aria-hidden="true"><span style="--i:${i}">${w}</span></span>`)
+      .join(' ');
+  });
+
+  if (!reduce) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          // și ce e deja deasupra ecranului (revenire în pagină, salt la ancoră)
+          if (!e.isIntersecting && e.boundingClientRect.top > 0) continue;
+          e.target.classList.add('is-in');
+          io.unobserve(e.target);
+        }
+      },
+      { rootMargin: '0px 0px -12% 0px' },
+    );
+    document.querySelectorAll('[data-reveal], [data-split]').forEach((el) => io.observe(el));
+
+    const lenis = new Lenis({ lerp: 0.09 });
+    const layers = [...document.querySelectorAll<HTMLElement>('[data-parallax]')];
+    const frame = (t: number) => {
+      lenis.raf(t);
+      for (const el of layers) {
+        const box = el.parentElement!.getBoundingClientRect();
+        if (box.bottom < 0 || box.top > innerHeight) continue;
+        el.style.transform = `translate3d(0, ${-box.top * Number(el.dataset.parallax)}px, 0)`;
+      }
+      requestAnimationFrame(frame);
+    };
+    requestAnimationFrame(frame);
+  }
+</script>
 
 <style is:global>
   body.premium {
@@ -202,16 +261,26 @@ const gifts = pick(['set-cadou-miere-lavanda', 'set-cadou-lavanda', 'set-cadou-d
   /* Hero pe toată înălțimea ecranului, antetul stă peste fotografie */
   .p-hero {
     position: relative;
+    overflow: hidden;
     display: grid;
     align-items: end;
     min-height: max(620px, 100svh);
     color: #fff;
     isolation: isolate;
   }
-  .p-hero-img {
+  .p-hero-media,
+  .p-visit-media {
     position: absolute;
-    inset: 0;
+    inset: -12% 0 0;
     z-index: -2;
+    overflow: hidden;
+    will-change: transform;
+  }
+  .p-visit-media {
+    inset: -25% 0;
+  }
+  .p-hero-img,
+  .p-visit-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -554,21 +623,14 @@ const gifts = pick(['set-cadou-miere-lavanda', 'set-cadou-lavanda', 'set-cadou-d
 
   .p-visit {
     position: relative;
+    overflow: hidden;
     display: grid;
     place-items: center;
     min-height: 620px;
     padding: 64px var(--gutter);
     isolation: isolate;
   }
-  .p-visit-img {
-    position: absolute;
-    inset: 0;
-    z-index: -2;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  .p-visit-box {
+    .p-visit-box {
     width: min(100%, 460px);
     padding: clamp(28px, 4vw, 48px);
     background: #fffaf6;
@@ -591,5 +653,184 @@ const gifts = pick(['set-cadou-miere-lavanda', 'set-cadou-lavanda', 'set-cadou-d
   }
   .p-visit-box dd {
     color: var(--color-muted);
+  }
+
+  .p-honey-media {
+    overflow: hidden;
+  }
+
+  /* Mișcare: totul pornește doar cu clasa .motion, pusă din script când utilizatorul nu a cerut mișcare redusă */
+  :root {
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-wipe: cubic-bezier(0.77, 0, 0.18, 1);
+  }
+  .p-line {
+    display: block;
+    overflow: hidden;
+    padding-bottom: 0.1em;
+    margin-bottom: -0.1em;
+  }
+  .p-line > span {
+    display: block;
+  }
+  .motion .p-hero-img {
+    animation: p-zoom 2.8s var(--ease-out) both;
+  }
+  .motion .p-line > span {
+    animation: p-rise 1.2s var(--ease-out) var(--d, 0ms) both;
+  }
+  .motion .p-in {
+    animation: p-fade 1s var(--ease-out) var(--d, 0ms) both;
+  }
+  @keyframes p-zoom {
+    from {
+      transform: scale(1.14);
+      filter: brightness(0.6);
+    }
+  }
+  @keyframes p-rise {
+    from {
+      transform: translateY(105%);
+    }
+  }
+  @keyframes p-fade {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+  }
+
+  .motion [data-reveal]:not([data-reveal='wipe']) {
+    opacity: 0;
+    transform: translateY(32px);
+    transition:
+      opacity 1s var(--ease-out) var(--d, 0ms),
+      transform 1s var(--ease-out) var(--d, 0ms);
+  }
+  .motion [data-reveal].is-in {
+    opacity: 1;
+    transform: none;
+  }
+  /* Fotografiile se „deschid” de jos în sus, cu un zoom care se așază */
+  .motion [data-reveal='wipe'] {
+    clip-path: inset(100% 0 0 0);
+    transition: clip-path 1.4s var(--ease-wipe) var(--d, 0ms);
+  }
+  .motion [data-reveal='wipe'] img {
+    transform: scale(1.25);
+    transition: transform 1.8s var(--ease-out) var(--d, 0ms);
+  }
+  .motion [data-reveal='wipe'].is-in {
+    clip-path: inset(0 0 0 0);
+  }
+  .motion [data-reveal='wipe'].is-in img {
+    transform: scale(1);
+  }
+  .motion .p-gift.is-in:hover img,
+  .motion .p-card:hover .p-card-img img {
+    transform: scale(1.05);
+  }
+
+  [data-split] .w {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: top;
+    padding-bottom: 0.1em;
+    margin-bottom: -0.1em;
+  }
+  [data-split] .w > span {
+    display: inline-block;
+  }
+  .motion [data-split] .w > span {
+    transform: translateY(105%);
+    transition: transform 1.1s var(--ease-out);
+    transition-delay: calc(var(--i) * 60ms);
+  }
+  .motion [data-split].is-in .w > span {
+    transform: none;
+  }
+
+  /* Liniile aurii din dreptul prețurilor se trag de la stânga la dreapta */
+  .p-honey dl div,
+  .p-packages li {
+    position: relative;
+  }
+  .motion .p-honey-text dl div,
+  .motion .p-packages li {
+    border-bottom-color: transparent;
+  }
+  .motion .p-honey-text dl div::after,
+  .motion .p-packages li::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 1px;
+    background: rgb(212 173 102 / 0.4);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 1.2s var(--ease-out) calc(var(--d, 0ms) + 300ms);
+  }
+  .motion .p-honey-text.is-in dl div::after,
+  .motion .p-packages li.is-in::after {
+    transform: scaleX(1);
+  }
+
+  /* Butonul auriu: o lumină care trece peste el la hover */
+  .p-btn-gold {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .p-btn-gold::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(105deg, transparent 35%, rgb(255 255 255 / 0.55) 50%, transparent 65%);
+    transform: translateX(-120%);
+  }
+  .p-btn-gold:hover::after {
+    transform: translateX(120%);
+    transition: transform 900ms var(--ease-out);
+  }
+  .p-btn-line,
+  .p-btn-dark {
+    transition:
+      background 300ms var(--ease-out),
+      border-color 300ms var(--ease-out),
+      color 300ms var(--ease-out);
+  }
+
+  /* Linkurile subliniate: linia se retrage și revine la hover */
+  .p-more,
+  .p-add {
+    border-bottom: 0;
+    background: linear-gradient(currentColor, currentColor) left bottom / 100% 1px no-repeat;
+    transition:
+      background-size 500ms var(--ease-out),
+      color 200ms ease-out;
+  }
+  .p-more:hover,
+  .p-add:hover {
+    animation: p-underline 700ms var(--ease-out);
+  }
+  @keyframes p-underline {
+    0% {
+      background-size: 100% 1px;
+      background-position: right bottom;
+    }
+    45% {
+      background-size: 0% 1px;
+      background-position: right bottom;
+    }
+    46% {
+      background-position: left bottom;
+    }
+    100% {
+      background-size: 100% 1px;
+      background-position: left bottom;
+    }
   }
 </style>
