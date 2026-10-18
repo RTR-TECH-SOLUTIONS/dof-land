@@ -1,0 +1,595 @@
+---
+// Varianta „premium” a paginii principale, pentru comparat cu cea de la /.
+import { getImage, Image } from 'astro:assets';
+import honeyLabel from '../assets/brand/eticheta-miere.png';
+import Layout from '../layouts/Layout.astro';
+import { schoolPackages } from '../data/garden';
+import { img, products } from '../data/products';
+import { lei, site, u } from '../data/site';
+
+const pick = (slugs: string[]) => slugs.map((s) => products.find((p) => p.slug === s)!);
+const lavender = await Promise.all(
+  pick(['set-3-saculeti-lavanda-50g', 'set-5-saculeti-lavanda-30g', 'lumanare-cu-lavanda', 'sapun-cu-lavanda']).map(async (p) => ({
+    ...p,
+    thumb: (await getImage({ src: img(p.image), width: 160, height: 160, fit: 'cover' })).src,
+  })),
+);
+const gifts = pick(['set-cadou-miere-lavanda', 'set-cadou-lavanda', 'set-cadou-diverse-produse']);
+---
+
+<Layout title="Dof Land | Un colț de rai la Poienarii Burchii" variant="premium">
+  <section class="p-hero">
+    <Image src={img('lan-hero')} alt="Rânduri de lavandă înflorită la apus" width={1800} height={1200} fit="cover" loading="eager" fetchpriority="high" class="p-hero-img" />
+    <div class="p-hero-text">
+      <p class="p-kicker p-kicker-hero">Poienarii Burchii, Prahova</p>
+      <h1>Lavandă, miere și căpșuni din grădina noastră</h1>
+      <p class="p-hero-lead">Le cultivăm pe 5000 de metri pătrați și le trimitem acasă prin {site.courier}.</p>
+      <div class="p-actions">
+        <a href={u('/magazin')} class="p-btn p-btn-gold">Intră în magazin</a>
+        <a href={u('/gradina-educativa')} class="p-btn p-btn-line">Vizitează grădina</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-dark">
+    <div class="p-wrap p-intro">
+      <h2>Un colț de rai, făcut cu mâinile noastre</h2>
+      <p>
+        Cultivăm căpșuni, lavandă, trandafiri, lalele și plante aromatice. Lavanda o tăiem vara și o uscăm la umbră, apoi umplem
+        săculeții unul câte unul.
+      </p>
+    </div>
+  </section>
+
+  <section class="p-light">
+    <div class="p-wrap">
+      <div class="p-head">
+        <h2>Colecția de lavandă</h2>
+        <a href={u('/magazin?categorie=lavanda')} class="p-more">Toate produsele cu lavandă</a>
+      </div>
+      <div class="p-grid">
+        {
+          lavender.map((p) => (
+            <article class="p-card">
+              <a href={u(`/produs/${p.slug}`)} class="p-card-img">
+                <Image src={img(p.image)} alt={p.name} width={600} height={750} fit="cover" loading="lazy" />
+              </a>
+              <h3><a href={u(`/produs/${p.slug}`)}>{p.name}</a></h3>
+              <p class="p-price">{lei(p.price)}</p>
+              <button type="button" class="p-add" data-add data-id={p.slug} data-name={p.name} data-price={p.price} data-img={p.thumb}>
+                Adaugă în coș
+              </button>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="p-honey">
+    <Image src={img('miere-borcan')} alt="Borcan de miere cu linguriță de lemn, între flori de cireș" width={1000} height={1250} fit="cover" loading="lazy" class="p-honey-photo" />
+    <div class="p-honey-text">
+      <Image src={honeyLabel} alt="Eticheta mierii polifloră Dof Land" width={260} height={260} loading="lazy" class="p-honey-label" />
+      <h2>Miere polifloră</h2>
+      <p>Gust dulce și aromă florală, pentru micul dejun, ceai sau deserturi.</p>
+      <dl>
+        <div><dt>Borcan de 380 ml</dt><dd>29,99 lei</dd></div>
+        <div><dt>Borcan de 200 ml</dt><dd>18,99 lei</dd></div>
+      </dl>
+      <a href={u('/produs/miere-poliflora-380ml')} class="p-btn p-btn-gold">Comandă mierea</a>
+    </div>
+  </section>
+
+  <section class="p-cream">
+    <div class="p-wrap">
+      <div class="p-head">
+        <h2>Seturi cadou</h2>
+        <a href={u('/magazin?categorie=cadouri')} class="p-more">Toate seturile</a>
+      </div>
+      <div class="p-gifts">
+        {
+          gifts.map((g, i) => (
+            <a href={u(`/produs/${g.slug}`)} class:list={['p-gift', i === 0 && 'p-gift-main']}>
+              <Image src={img(g.image)} alt="" width={i === 0 ? 1000 : 600} height={i === 0 ? 1000 : 600} fit="cover" loading="lazy" />
+              <div>
+                <h3>{g.name}</h3>
+                <p>{g.priceFrom && 'de la '}{lei(g.price)}</p>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="p-dark">
+    <div class="p-wrap p-garden">
+      <div class="p-garden-photos">
+        <Image src={img('masa-lavanda-client')} alt="Masă cu față de masă cu lavandă, coș cu lavandă uscată și dovleci" width={800} height={1000} fit="cover" loading="lazy" />
+        <Image src={img('atelier-masa-client')} alt="Copii care plantează răsaduri de căpșun la masa de lucru" width={600} height={600} fit="cover" loading="lazy" />
+      </div>
+      <div>
+        <p class="p-kicker">Din aprilie până în octombrie</p>
+        <h2>Grădina educativă</h2>
+        <p class="p-muted">
+          Primim grădinițe, școli și familii. Copiii plantează, observă insectele și semințele și pleacă acasă cu ghiveciul lor.
+        </p>
+        <ul class="p-packages">
+          {schoolPackages.map((p) => <li><span>{p.name}</span><span>{p.duration}</span><b>{p.price} lei</b></li>)}
+        </ul>
+        <div class="p-actions">
+          <a href={u('/gradina-educativa#oferta')} class="p-btn p-btn-gold">Cere ofertă pentru grup</a>
+          <a href={u('/evenimente')} class="p-btn p-btn-line">Evenimente 2027</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-visit">
+    <Image src={img('lan-aproape')} alt="Spice de lavandă în lan" width={1800} height={1200} fit="cover" loading="lazy" class="p-visit-img" />
+    <div class="p-visit-box">
+      <h2>Vă așteptăm la grădină</h2>
+      <dl>
+        {site.schedule.map((s) => <div><dt>{s.days}</dt><dd>{s.hours}</dd></div>)}
+      </dl>
+      <a href={u('/viziteaza-ne')} class="p-btn p-btn-dark">Cum ajungeți</a>
+    </div>
+  </section>
+</Layout>
+
+<style is:global>
+  body.premium {
+    background: var(--color-night);
+  }
+  .p-wrap {
+    max-width: 1320px;
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+  .p-kicker {
+    font-size: 0.95rem;
+    color: var(--color-gold);
+    margin-bottom: 14px;
+  }
+.p-kicker-hero {
+    color: #f0d9a8;
+    font-weight: 600;
+  }
+  .p-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 50px;
+    padding: 0 28px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    transition:
+      background 200ms ease-out,
+      color 200ms ease-out,
+      border-color 200ms ease-out;
+  }
+  .p-btn-gold {
+    background: var(--color-gold);
+    color: var(--color-night);
+  }
+  .p-btn-gold:hover {
+    background: #e6c47f;
+  }
+  .p-btn-line {
+    border-color: rgb(255 255 255 / 0.45);
+    color: #fff;
+  }
+  .p-btn-line:hover {
+    border-color: #fff;
+    background: rgb(255 255 255 / 0.08);
+  }
+  .p-btn-dark {
+    background: var(--color-night);
+    color: #fff;
+  }
+  .p-btn-dark:hover {
+    background: var(--color-brand);
+  }
+  .p-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 32px;
+  }
+
+  /* Hero pe toată înălțimea ecranului, antetul stă peste fotografie */
+  .p-hero {
+    position: relative;
+    display: grid;
+    align-items: end;
+    min-height: max(620px, 100svh);
+    color: #fff;
+    isolation: isolate;
+  }
+  .p-hero-img {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .p-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      linear-gradient(to bottom, rgb(26 18 21 / 0.55), transparent 28%),
+      linear-gradient(to top, rgb(26 18 21 / 0.92), rgb(26 18 21 / 0.55) 45%, rgb(26 18 21 / 0.1) 75%);
+  }
+  .p-hero-text {
+    width: 100%;
+    max-width: 1320px;
+    margin-inline: auto;
+    padding: 0 var(--gutter) clamp(48px, 9vh, 96px);
+  }
+  .p-hero h1 {
+    max-width: 15ch;
+    color: #fff;
+    font-size: clamp(2.6rem, 6.4vw, 5.4rem);
+    line-height: 1.02;
+  }
+  .p-hero-lead {
+    max-width: 44ch;
+    margin-top: 20px;
+    font-size: clamp(1.02rem, 1.4vw, 1.2rem);
+    color: rgb(255 255 255 / 0.82);
+  }
+
+  .p-dark {
+    background: var(--color-night);
+    color: rgb(255 255 255 / 0.78);
+  }
+  .p-dark h2 {
+    color: #fff;
+  }
+  .p-intro {
+    display: grid;
+    gap: 24px;
+    padding-block: clamp(64px, 9vw, 120px);
+  }
+  .p-intro h2 {
+    font-size: clamp(2rem, 4vw, 3.4rem);
+    line-height: 1.08;
+    max-width: 16ch;
+  }
+  .p-intro p {
+    max-width: 46ch;
+    font-size: 1.1rem;
+    align-self: end;
+    padding-top: 22px;
+    border-top: 1px solid rgb(212 173 102 / 0.4);
+  }
+  @media (min-width: 900px) {
+    .p-intro {
+      grid-template-columns: 1.3fr 1fr;
+      gap: 64px;
+    }
+  }
+
+  .p-light {
+    background: #fff;
+    padding-block: clamp(64px, 8vw, 110px);
+  }
+  .p-cream {
+    background: #f5ede6;
+    padding-block: clamp(64px, 8vw, 110px);
+  }
+  .p-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px 24px;
+    margin-bottom: clamp(28px, 4vw, 48px);
+  }
+  .p-head h2 {
+    font-size: clamp(2rem, 3.6vw, 3rem);
+  }
+  .p-more {
+    padding-bottom: 3px;
+    border-bottom: 1px solid currentColor;
+    font-weight: 600;
+    color: var(--color-copper);
+  }
+  .p-more:hover {
+    color: var(--color-ink);
+  }
+
+  .p-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 36px 16px;
+  }
+  @media (min-width: 900px) {
+    .p-grid {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 28px;
+    }
+  }
+  .p-card-img {
+    display: block;
+    overflow: hidden;
+    border-radius: 6px;
+    background: #f5ede6;
+  }
+  .p-card-img img {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    transition: transform 600ms ease-out;
+  }
+  .p-card:hover .p-card-img img {
+    transform: scale(1.04);
+  }
+  .p-card h3 {
+    margin-top: 16px;
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: clamp(1.05rem, 1.4vw, 1.25rem);
+    letter-spacing: 0;
+    line-height: 1.25;
+  }
+  .p-price {
+    margin-top: 6px;
+    color: var(--color-copper);
+    font-weight: 700;
+  }
+  .p-add {
+    margin-top: 12px;
+    padding-bottom: 2px;
+    border-bottom: 1px solid var(--color-ink);
+    font-size: 0.93rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .p-add:hover {
+    color: var(--color-copper);
+    border-color: var(--color-copper);
+  }
+
+  .p-honey {
+    display: grid;
+    background: #0f0b0c;
+    color: rgb(255 255 255 / 0.78);
+  }
+  .p-honey-photo {
+    width: 100%;
+    height: 100%;
+    max-height: 70vh;
+    object-fit: cover;
+  }
+  .p-honey-text {
+    align-self: center;
+    padding: clamp(48px, 7vw, 96px) var(--gutter);
+    max-width: 560px;
+  }
+  .p-honey-label {
+    width: 150px;
+    height: auto;
+    margin-bottom: 28px;
+  }
+  .p-honey h2 {
+    color: #fff;
+    font-size: clamp(2.2rem, 4vw, 3.4rem);
+  }
+  .p-honey-text > p {
+    margin-top: 14px;
+    font-size: 1.08rem;
+  }
+  .p-honey dl {
+    margin: 32px 0 36px;
+    border-top: 1px solid rgb(212 173 102 / 0.35);
+  }
+  .p-honey dl div {
+    display: flex;
+    justify-content: space-between;
+    padding: 14px 0;
+    border-bottom: 1px solid rgb(212 173 102 / 0.35);
+  }
+  .p-honey dd {
+    font-family: var(--font-serif);
+    font-size: 1.3rem;
+    color: var(--color-gold);
+  }
+  @media (min-width: 900px) {
+    .p-honey {
+      grid-template-columns: 1fr 1fr;
+    }
+    .p-honey-photo {
+      max-height: none;
+      min-height: 680px;
+    }
+    .p-honey-text {
+      padding-left: clamp(48px, 7vw, 110px);
+    }
+  }
+
+  .p-gifts {
+    display: grid;
+    gap: 16px;
+  }
+  .p-gift {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    border-radius: 6px;
+    color: #fff;
+  }
+  .p-gift img {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    transition: transform 600ms ease-out;
+  }
+  .p-gift:hover img {
+    transform: scale(1.04);
+  }
+  .p-gift::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgb(26 18 21 / 0.8), transparent 55%);
+  }
+  .p-gift div {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    padding: clamp(18px, 2.4vw, 32px);
+  }
+  .p-gift h3 {
+    max-width: 24ch;
+    color: #fff;
+    font-family: var(--font-serif);
+    font-weight: 400;
+    letter-spacing: 0;
+    font-size: clamp(1.15rem, 1.6vw, 1.45rem);
+    line-height: 1.2;
+  }
+  .p-gift p {
+    margin-top: 6px;
+    color: var(--color-gold);
+    font-weight: 700;
+  }
+  @media (min-width: 900px) {
+    .p-gifts {
+      grid-template-columns: 1.4fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      height: 640px;
+    }
+    .p-gift-main {
+      grid-row: 1 / 3;
+    }
+    .p-gift img {
+      aspect-ratio: auto;
+    }
+    .p-gift-main h3 {
+      font-size: 2rem;
+    }
+  }
+
+  .p-garden {
+    display: grid;
+    gap: 40px;
+    padding-block: clamp(64px, 9vw, 120px);
+  }
+  .p-garden h2 {
+    font-size: clamp(2.2rem, 4vw, 3.4rem);
+  }
+  .p-muted {
+    margin-top: 14px;
+    max-width: 48ch;
+    font-size: 1.08rem;
+  }
+  .p-garden-photos {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 12px;
+    align-items: end;
+  }
+  .p-garden-photos img {
+    width: 100%;
+    border-radius: 6px;
+    object-fit: cover;
+  }
+  .p-garden-photos img:first-child {
+    aspect-ratio: 4 / 5;
+  }
+  .p-garden-photos img:last-child {
+    aspect-ratio: 1;
+    margin-bottom: 15%;
+  }
+  .p-packages {
+    margin-top: 28px;
+    border-top: 1px solid rgb(255 255 255 / 0.14);
+  }
+  .p-packages li {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 2px 16px;
+    padding: 13px 0;
+    border-bottom: 1px solid rgb(255 255 255 / 0.14);
+  }
+  .p-packages li span:first-child {
+    color: #fff;
+  }
+  .p-packages li span:nth-child(2) {
+    grid-row: 2;
+    font-size: 0.9rem;
+    color: rgb(255 255 255 / 0.55);
+  }
+  .p-packages b {
+    grid-row: 1 / 3;
+    grid-column: 2;
+    align-self: center;
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: 1.2rem;
+    color: var(--color-gold);
+  }
+  .p-packages b::after {
+    content: ' / elev';
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    color: rgb(255 255 255 / 0.55);
+  }
+  @media (min-width: 900px) {
+    .p-garden {
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+  }
+
+  .p-visit {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: 620px;
+    padding: 64px var(--gutter);
+    isolation: isolate;
+  }
+  .p-visit-img {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .p-visit-box {
+    width: min(100%, 460px);
+    padding: clamp(28px, 4vw, 48px);
+    background: #fffaf6;
+    border-radius: 6px;
+    text-align: center;
+  }
+  .p-visit-box h2 {
+    font-size: clamp(1.9rem, 3vw, 2.5rem);
+  }
+  .p-visit-box dl {
+    margin: 24px 0 28px;
+    font-size: 0.97rem;
+  }
+  .p-visit-box dl div {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--color-line);
+  }
+  .p-visit-box dt {
+    font-weight: 700;
+  }
+  .p-visit-box dd {
+    color: var(--color-muted);
+  }
+</style>
